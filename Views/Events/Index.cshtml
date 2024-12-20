@@ -1,0 +1,43 @@
+﻿@model List<Eventure_ASP.Models.Event>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Eventure - Events</title>
+    <link rel="stylesheet" href="~/css/events.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="header">EVENTS</div>
+        <button class="btn-create-event" onclick="location.href='@Url.Action("Create", "Event")'">Create Event</button>
+        <div class="event-container">
+            @if (Model == null || !Model.Any())
+            {
+                <p>No events to display.</p>
+            }
+            else
+            {
+                foreach (var eventItem in Model)
+                {
+                    <div class="event-card">
+                        <h3>@eventItem.Name</h3>
+                        <p>
+                            @if (eventItem.StartTime.HasValue)
+                            {
+                                @eventItem.StartTime.Value.ToString("yyyy-MM-dd HH:mm")
+                            }
+                            else
+                            {
+                                <span>Start time not available</span>
+                            }
+                        </p>
+                        <p>Location: @eventItem.Location</p>
+                        <p>Organizer: @eventItem.Creator?.Username</p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</body>
+</html>

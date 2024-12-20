@@ -1,0 +1,12 @@
+﻿body {
+    background-color: #f0f0f0; /* Light gray background */
+}
+
+.container-fluid .bg-purple {
+    background-color: #9B59B6 !important; /* Use !important to override other styles */
+}
+
+.card {
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0
+}

@@ -1,0 +1,40 @@
+﻿@model Eventure_ASP.Models.ProfileViewModel
+
+<div class="event-history">
+    <h1 class="display-4">EVENT HISTORY</h1>
+    <div class="event-cards">
+        @if (Model.Tickets != null && Model.Tickets.Any())
+        {
+            var addedEventIds = new HashSet<int>();
+
+            foreach (var ticket in Model.Tickets)
+            {
+                // Access the TicketType to get the EventId
+                var ticketType = ticket.TicketType; // This is the TicketType associated with the Ticket
+                if (ticketType != null)
+                {
+                    var eventDetails = Model.Events.FirstOrDefault(e => e.Id == ticketType.EventId); // Get the event using EventId
+
+                    if (eventDetails != null && !addedEventIds.Contains(eventDetails.Id))
+                    {
+                        var eventStartTime = eventDetails.StartTime; // Assuming StartTime is a DateTime?
+                        if (eventStartTime.HasValue && eventStartTime.Value < DateTime.Now)
+                        {
+                            <div class="event-card">
+                                <h2>@eventDetails.Name</h2>
+                                <p>Date: @eventStartTime.Value.ToString("MMMM dd, yyyy")</p>
+                                <p>Location: @eventDetails.Location</p>
+                                <p>Description: @eventDetails.Description</p>
+                            </div>
+                            addedEventIds.Add(eventDetails.Id);
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            <p>No event history found.</p>
+        }
+    </div>
+</div>

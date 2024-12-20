@@ -1,0 +1,54 @@
+﻿.container {
+    padding: 20px;
+}
+
+.header {
+    font-size: 64px;
+    font-family: 'Riffic Free Medium', sans-serif; /* Use a similar font */
+    margin-bottom: 20px;
+}
+
+.sub-header {
+    font-size: 36px;
+    font-family: 'Riffic Free Medium', sans-serif;
+    margin-top: 20px;
+}
+
+.event-card {
+    width: 250px;
+    height: 250px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 10px;
+    padding: 10px;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+}
+
+.btn-create-event {
+    background-color: #990099; /* Similar to Color(153, 0, 153) */
+    color: white;
+    font-size: 24px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .btn-create-event:hover {
+        background-color: #770077; /* Darker shade on hover */
+    }
+
+.event-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow-x: auto; /* Allow horizontal scrolling */
+}
+
+.clock {
+    font-size: 48px;
+    font-family: 'Riffic Free Medium', sans-serif;
+    margin-bottom: 20px;
+}

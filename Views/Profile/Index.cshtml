@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Eventure - Profile";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/profile.css" />
+    <script src="~/js/site.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 sidebar">
+                <h4>Navigation</h4>
+                <button class="btn btn-sidebar" onclick="loadView('Overview')">Overview</button>
+                <button class="btn btn-sidebar" onclick="loadView('MyEvents')">My Events</button>
+                <button class="btn btn-sidebar" onclick="loadView('MyTickets')">My Tickets</button>
+                <button class="btn btn-sidebar" onclick="loadView('EventHistory')">Event History</button>
+                <button class="btn btn-sidebar" onclick="loadView('PaymentMethods')">Payment Methods</button>
+            </div>
+            <div class="col-md-9">
+                <div id="mainContent" class="scrollable">
+                    <div id="contentArea">
+                        @*@Html.Partial("_Overview")  Load default view *@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loadView(viewName) {
+            $.ajax({
+                url: '@Url.Action("LoadView", "Profile")',
+                type: 'GET',
+                data: { view: viewName },
+                success: function (data) {
+                    $('#contentArea').html(data);
+                },
+                error: function () {
+                    alert('Error loading view.');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

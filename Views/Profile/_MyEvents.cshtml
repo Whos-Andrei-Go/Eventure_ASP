@@ -1,0 +1,44 @@
+﻿@model Eventure_ASP.Models.ProfileViewModel
+@inject Eventure_ASP.Utilities.Session Session // Inject the Session utility
+
+<div class="my-events">
+    <h1 class="display-4">MY EVENTS</h1>
+    <div class="event-cards">
+        @if (Model.Events != null && Model.Events.Any())
+        {
+            // Assuming you have a method to get the current user
+            var currentUser = Session.GetCurrentUser(); // Get the current user object
+            if (currentUser != null)
+            {
+                var currentUserId = currentUser.Id; // Use a valid variable name
+
+                var userEvents = Model.Events.Where(e => e.CreatorId == currentUserId).ToList();
+
+                if (!userEvents.Any())
+                {
+                    <p>No events to display.</p>
+                }
+                else
+                {
+                    foreach (var eventDetails in userEvents)
+                    {
+                        <div class="event-card">
+                            <h2>@eventDetails.Name</h2>
+                            <p>Date: @eventDetails.StartTime?.ToString("MMMM dd, yyyy")</p>
+                            <p>Location: @eventDetails.Location</p>
+                            <p>Description: @eventDetails.Description</p>
+                        </div>
+                    }
+                }
+            }
+            else
+            {
+                <p>No user is currently logged in.</p>
+            }
+        }
+        else
+        {
+            <p>No events to display.</p>
+        }
+    </div>
+</div>

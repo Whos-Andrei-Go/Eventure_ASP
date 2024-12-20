@@ -1,0 +1,20 @@
+﻿@* _PaymentMethods.cshtml *@
+<div>
+    <h2>Payment Methods</h2>
+    @if (Model.PaymentMethods.Any())
+    {
+        <ul>
+            @foreach (var method in Model.PaymentMethods)
+            {
+                <li>
+                    <strong>@method.Type</strong> - **** **** **** @method.LastFourDigits
+                    <span class="text-muted">(@method.Status)</span>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No payment methods added.</p>
+    }
+</div>

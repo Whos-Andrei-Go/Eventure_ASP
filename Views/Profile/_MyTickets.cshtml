@@ -1,0 +1,20 @@
+﻿@* _MyTickets.cshtml *@
+<div>
+    <h2>My Tickets</h2>
+    @if (Model.Tickets.Any())
+    {
+        <ul>
+            @foreach (var ticket in Model.Tickets)
+            {
+                <li>
+                    <strong>@ticket.EventTitle</strong> - @ticket.SeatNumber
+                    <span class="text-muted">(@ticket.Status)</span>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>You have no tickets purchased.</p>
+    }
+</div>

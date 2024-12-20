@@ -1,0 +1,64 @@
+﻿@model Eventure_ASP.Models.DashboardViewModel 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Eventure - Dashboard</title>
+    <link rel="stylesheet" href="~/css/dashboard.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="header">DASHBOARD</div>
+        <div class="clock" id="lblClock">@DateTime.Now.ToString("HH:mm:ss")</div>
+
+        <div class="sub-header">Upcoming Events:</div>
+        <div class="event-container">
+            @if (Model.UpcomingEvents == null || !Model.UpcomingEvents.Any())
+            {
+                <p>No upcoming events to display.</p>
+            }
+            else
+            {
+                foreach (var eventItem in Model.UpcomingEvents)
+                {
+                    <div class="event-card">
+                        <h3>@eventItem.Name</h3>
+                        <p>@if (eventItem.StartTime.HasValue) { @eventItem.StartTime.Value.ToString("yyyy-MM-dd HH:mm") } else { <span>Start time not available</span> }</p>
+                        <p>Location: @eventItem.Location</p>
+                        <p>Organizer: @eventItem.Creator?.Username</p>
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="sub-header">Your Events:</div>
+        <div class="event-container">
+            @if (Model.YourEvents == null || !Model.YourEvents.Any())
+            {
+                <p>No events created by you.</p>
+            }
+            else
+            {
+                foreach (var eventItem in Model.YourEvents)
+                {
+                    <div class="event-card">
+                        <h3>@eventItem.Name</h3>
+                        <p>@if (eventItem.StartTime.HasValue) { @eventItem.StartTime.Value.ToString("yyyy-MM-dd HH:mm") } else { <span>Start time not available</span> }</p>
+                        <p>Location: @eventItem.Location</p>
+                        <p>Organizer: @eventItem.Creator?.Username</p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to update the clock every second
+        setInterval(function () {
+            var now = new Date();
+            document.getElementById('lblClock').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }, 1000);
+    </script>
+</body>
+</html>
