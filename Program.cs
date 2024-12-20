@@ -23,6 +23,7 @@ builder.Services.AddHttpContextAccessor(); // Add this line to register IHttpCon
 
 // Register the Session utility for dependency injection
 builder.Services.AddScoped<Session>(); // Registering the Session class
+builder.Services.AddScoped<PasswordUtils>();
 builder.Services.AddScoped<UserRepository>();
 
 var app = builder.Build();

@@ -6,7 +6,6 @@
     <div class="event-cards">
         @if (Model.Events != null && Model.Events.Any())
         {
-            // Assuming you have a method to get the current user
             var currentUser = Session.GetCurrentUser(); // Get the current user object
             if (currentUser != null)
             {
@@ -23,10 +22,10 @@
                     foreach (var eventDetails in userEvents)
                     {
                         <div class="event-card">
-                            <h2>@eventDetails.Name</h2>
-                            <p>Date: @eventDetails.StartTime?.ToString("MMMM dd, yyyy")</p>
-                            <p>Location: @eventDetails.Location</p>
-                            <p>Description: @eventDetails.Description</p>
+                            <h2 class="event-name">@eventDetails.Name</h2>
+                            <p class="event-location">@eventDetails.Location</p>
+                            <p class="event-start-date">Start: @eventDetails.StartTime?.ToString("MMMM dd, yyyy")</p>
+                            <p class="event-end-date">End: @eventDetails.EndTime?.ToString("MMMM dd, yyyy")</p>
                         </div>
                     }
                 }

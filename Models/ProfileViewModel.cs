@@ -11,6 +11,8 @@
         public List<Ticket> Tickets { get; set; }
         public List<Event> EventHistory { get; set; }
         public List<PaymentMethodModel> PaymentMethods { get; set; }
+        public string CurrentPassword { get; set; } // Add this property
+        public string NewPassword { get; set; } // Add this property
     }
 
     public class PaymentMethodModel

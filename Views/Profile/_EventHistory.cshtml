@@ -1,40 +1,62 @@
 ﻿@model Eventure_ASP.Models.ProfileViewModel
+@inject Eventure_ASP.Utilities.Session Session // Inject the Session utility
 
 <div class="event-history">
     <h1 class="display-4">EVENT HISTORY</h1>
     <div class="event-cards">
         @if (Model.Tickets != null && Model.Tickets.Any())
         {
-            var addedEventIds = new HashSet<int>();
-
-            foreach (var ticket in Model.Tickets)
+            var currentUser = Session.GetCurrentUser(); // Get the current user object
+            if (currentUser != null)
             {
-                // Access the TicketType to get the EventId
-                var ticketType = ticket.TicketType; // This is the TicketType associated with the Ticket
-                if (ticketType != null)
-                {
-                    var eventDetails = Model.Events.FirstOrDefault(e => e.Id == ticketType.EventId); // Get the event using EventId
+                var addedEventIds = new HashSet<int>();
+                bool hasEvents = false; // Flag to check if any events are added
 
-                    if (eventDetails != null && !addedEventIds.Contains(eventDetails.Id))
+                foreach (var ticket in Model.Tickets)
+                {
+                    // Check if the ticket belongs to the current user
+                    if (ticket.UserId == currentUser.Id) // Assuming UserId is a property of Ticket
                     {
-                        var eventStartTime = eventDetails.StartTime; // Assuming StartTime is a DateTime?
-                        if (eventStartTime.HasValue && eventStartTime.Value < DateTime.Now)
+                        // Access the TicketType to get the EventId
+                        var ticketType = ticket.TicketType; // This is the TicketType associated with the Ticket
+                        if (ticketType != null)
                         {
-                            <div class="event-card">
-                                <h2>@eventDetails.Name</h2>
-                                <p>Date: @eventStartTime.Value.ToString("MMMM dd, yyyy")</p>
-                                <p>Location: @eventDetails.Location</p>
-                                <p>Description: @eventDetails.Description</p>
-                            </div>
-                            addedEventIds.Add(eventDetails.Id);
+                            var eventDetails = Model.Events.FirstOrDefault(e => e.Id == ticketType.EventId); // Get the event using EventId
+
+                            if (eventDetails != null && !addedEventIds.Contains(eventDetails.Id))
+                            {
+                                var eventStartTime = eventDetails.StartTime; // Assuming StartTime is a DateTime?
+                                if (eventStartTime.HasValue && eventStartTime.Value < DateTime.Now)
+                                {
+                                    hasEvents = true; // Set flag to true if an event is added
+                                    <div class="event-card">
+                                        <h2 class="event-name">@eventDetails.Name</h2>
+                                        <p class="event-location">@eventDetails.Location</p>
+                                        <p class="event-start-date">Start: @eventDetails.StartTime?.ToString("MMMM dd, yyyy")</p>
+                                        <p class="event-end-date">End: @eventDetails.EndTime?.ToString("MMMM dd, yyyy")</p>
+                                    </div>
+                                    addedEventIds.Add(eventDetails.Id);
+                                }
+                            }
                         }
                     }
                 }
+
+                // Check if any events were added
+                if (!hasEvents)
+                {
+                    <p>No past events found for your tickets.</p>
+                    ;
+                }
+            }
+            else
+            {
+                <p>No user is currently logged in.</p>
             }
         }
         else
         {
-            <p>No event history found.</p>
+            <p>No tickets found.</p>
         }
     </div>
 </div>

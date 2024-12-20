@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "z21zU7AuLM7vZQFhAAzYd8itMc5B++0I0u+4MN4lMPQ=",
+  "Hash": "GWC+fwgOu2CYwREBi85QP106E+OM+402tDjHD/3Nhm8=",
   "Source": "Eventure_ASP",
   "BasePath": "_content/Eventure_ASP",
   "Mode": "Default",
@@ -136,8 +136,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "c8zj7kc8pp",
-      "Integrity": "5M+15o0GreeD8F+BFx1xExQzK71NRRmqsPS6fAk6KE0=",
+      "Fingerprint": "l7vys0ca2l",
+      "Integrity": "f1HgcGODDRvVJDYWCoWU4s2623PgKeNJNj/FWvugsZ4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\profile.css"
@@ -1693,51 +1693,6 @@
       ]
     },
     {
-      "Route": "css/profile.c8zj7kc8pp.css",
-      "AssetFile": "C:\\Users\\andre\\OneDrive\\Documents\\USC\\2nd Year\\2103\\Eventure_ASP\\wwwroot\\css\\profile.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3898"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"5M+15o0GreeD8F+BFx1xExQzK71NRRmqsPS6fAk6KE0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 20 Dec 2024 17:37:21 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "c8zj7kc8pp"
-        },
-        {
-          "Name": "label",
-          "Value": "css/profile.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-5M+15o0GreeD8F+BFx1xExQzK71NRRmqsPS6fAk6KE0="
-        }
-      ]
-    },
-    {
       "Route": "css/profile.css",
       "AssetFile": "C:\\Users\\andre\\OneDrive\\Documents\\USC\\2nd Year\\2103\\Eventure_ASP\\wwwroot\\css\\profile.css",
       "Selectors": [],
@@ -1748,7 +1703,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3898"
+          "Value": "5071"
         },
         {
           "Name": "Content-Type",
@@ -1756,11 +1711,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"5M+15o0GreeD8F+BFx1xExQzK71NRRmqsPS6fAk6KE0=\""
+          "Value": "\"f1HgcGODDRvVJDYWCoWU4s2623PgKeNJNj/FWvugsZ4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 20 Dec 2024 17:37:21 GMT"
+          "Value": "Fri, 20 Dec 2024 18:39:15 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1770,7 +1725,52 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-5M+15o0GreeD8F+BFx1xExQzK71NRRmqsPS6fAk6KE0="
+          "Value": "sha256-f1HgcGODDRvVJDYWCoWU4s2623PgKeNJNj/FWvugsZ4="
+        }
+      ]
+    },
+    {
+      "Route": "css/profile.l7vys0ca2l.css",
+      "AssetFile": "C:\\Users\\andre\\OneDrive\\Documents\\USC\\2nd Year\\2103\\Eventure_ASP\\wwwroot\\css\\profile.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5071"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"f1HgcGODDRvVJDYWCoWU4s2623PgKeNJNj/FWvugsZ4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 20 Dec 2024 18:39:15 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "l7vys0ca2l"
+        },
+        {
+          "Name": "label",
+          "Value": "css/profile.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-f1HgcGODDRvVJDYWCoWU4s2623PgKeNJNj/FWvugsZ4="
         }
       ]
     },

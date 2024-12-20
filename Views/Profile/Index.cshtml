@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Eventure_ASP.Models.ProfileViewModel
+
+@{
     ViewData["Title"] = "Eventure - Profile";
 }
 
@@ -25,7 +27,7 @@
             <div class="col-md-9">
                 <div id="mainContent" class="scrollable">
                     <div id="contentArea">
-                        @*@Html.Partial("_Overview")  Load default view *@
+                        @Html.Partial("_Overview", Model)  @* Pass the model to the partial view *@
                     </div>
                 </div>
             </div>
