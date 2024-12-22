@@ -2,23 +2,16 @@
 {
     public class ProfileViewModel
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; } 
-        public string Username { get; set; }
-        public string Email { get; set; }
-        public DateTime JoinedDate { get; set; }
-        public List<Event> Events { get; set; }
-        public List<Ticket> Tickets { get; set; }
-        public List<Event> EventHistory { get; set; }
-        public List<PaymentMethodModel> PaymentMethods { get; set; }
-        public string CurrentPassword { get; set; } // Add this property
-        public string NewPassword { get; set; } // Add this property
-    }
-
-    public class PaymentMethodModel
-    {
-        public string Type { get; set; }
-        public string LastFourDigits { get; set; }
-        public string Status { get; set; }
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string Username { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public DateTime JoinedDate { get; set; } = DateTime.MinValue;
+        public List<Event> Events { get; set; } = new List<Event>();
+        public List<Ticket> Tickets { get; set; } = new List<Ticket>();
+        public List<Event> EventHistory { get; set; } = new List<Event>();
+        public List<PaymentMethod> PaymentMethods { get; set; } = new List<PaymentMethod>();
+        public string CurrentPassword { get; set; } = string.Empty;
+        public string NewPassword { get; set; } = string.Empty;
     }
 }

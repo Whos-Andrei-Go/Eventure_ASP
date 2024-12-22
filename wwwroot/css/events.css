@@ -8,34 +8,66 @@
     margin-bottom: 20px;
 }
 
-.event-card {
-    width: 250px;
-    height: 250px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    margin: 10px;
-    padding: 10px;
-    display: inline-block;
-    vertical-align: top;
-    text-align: center;
-}
-
 .btn-create-event {
     background-color: #990099; /* Similar to Color(153, 0, 153) */
     color: white;
-    font-size: 24px;
-    padding: 10px 20px;
+    font-size: 24px; /* Match the button font size */
+    font-family: 'Tahoma', sans-serif; /* Set font to Tahoma */
+    font-weight: bold; /* Make the font bold */
+    padding: 10px 20px; /* Padding for buttons */
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-bottom: 20px; /* Space below the button */
 }
 
-    .btn-create-event:hover {
-        background-color: #770077; /* Darker shade on hover */
-    }
+.btn-create-event:hover {
+    background-color: #770077; /* Darker shade on hover */
+}
 
 .event-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
+}
+
+.event-card {
+    background-color: #800080; /* Purple background */
+    border-radius: 10px; /* Rounded corners */
+    padding: 15px; /* Inner padding */
+    margin: 10px; /* Space between cards */
+    width: calc(33.33% - 20px); /* Responsive width for three cards per row */
+    color: #ffffff; /* White text color */
+    transition: transform 0.2s; /* Smooth transition for hover effect */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.event-card:hover {
+    transform: scale(1.05); /* Slightly enlarge card on hover */
+}
+
+.event-name {
+    font-size: 24px; /* Font size for event name */
+    font-weight: bold; /* Bold font for event name */
+    margin-bottom: 10px; /* Space below the title */
+}
+
+.event-location,
+.event-start-date,
+.event-end-date {
+    font-size: 18px; /* Font size for other details */
+    margin: 5px 0; /* Space between paragraphs */
+}
+
+.btn-secondary {
+    font-size: 24px; /* Match the button font size */
+    padding: 10px 20px; /* Padding for buttons */
+}
+
+.list-group-item {
+    font-size: 18px; /* Match the font size for ticket types */
+}
+
+.row {
+    margin-bottom: 20px; /* Space between rows */
 }

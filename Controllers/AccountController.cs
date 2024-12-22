@@ -3,7 +3,7 @@ using Eventure_ASP.Data;
 using Eventure_ASP.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using BCrypt.Net; // Make sure to install the BCrypt.Net NuGet package
-using System.Threading.Tasks;
+using System.Linq; // For LINQ methods
 
 namespace Eventure_ASP.Controllers
 {
@@ -11,11 +11,13 @@ namespace Eventure_ASP.Controllers
     {
         private readonly Session _session;
         private readonly UserRepository _userRepository;
+        private readonly EtsDbContext _context; // Use EtsDbContext
 
-        public AccountController(Session session, UserRepository userRepository)
+        public AccountController(Session session, UserRepository userRepository, EtsDbContext context)
         {
             _session = session;
             _userRepository = userRepository;
+            _context = context; // Initialize the EtsDbContext
         }
 
         // GET: /Account/Login
@@ -26,12 +28,12 @@ namespace Eventure_ASP.Controllers
 
         // POST: /Account/Login
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public IActionResult Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
                 // Validate the user credentials
-                var user = await ValidateUser(model.Username, model.Password);
+                var user = ValidateUser(model.Username, model.Password);
                 if (user != null)
                 {
                     _session.SetCurrentUser(user); // Set the current user in session
@@ -45,10 +47,57 @@ namespace Eventure_ASP.Controllers
             return View(model);
         }
 
-        private async Task<User> ValidateUser(string username, string password)
+        // GET: /Account/Register
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        // POST: /Account/Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Check if the username already exists
+                var existingUser = _context.Users
+                    .FirstOrDefault(u => u.Username == model.Username);
+                if (existingUser != null)
+                {
+                    ModelState.AddModelError("Username", "Username already taken.");
+                    return View(model);
+                }
+
+                // Create a new user
+                var user = new User
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Username = model.Username,
+                    Email = model.Email,
+                    Password = BCrypt.Net.BCrypt.HashPassword(model.Password), // Hash the password
+                    Role = "User"
+                };
+
+                _context.Users.Add(user);
+                _context.SaveChanges(); // Save changes synchronously
+
+                _session.SetCurrentUser(user); // Set the current user in session
+
+
+                // Redirect to login after successful registration
+                return RedirectToAction("Index", "Dashboard");
+            }
+
+            return View(model);
+        }
+
+        private User ValidateUser(string username, string password)
         {
             var user = _userRepository.GetUserByUsername(username);
-            if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password)) // Assuming PasswordHash is the hashed password in the database
+            if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password)) // Verify the hashed password
             {
                 return user; // Return the user if the password matches
             }

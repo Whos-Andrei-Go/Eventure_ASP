@@ -62,21 +62,19 @@ input[type="password"] {
     transition: background-color 0.3s; /* Smooth transition */
 }
 
-    .btn:hover {
-        background-color: #7a007a; /* Darker purple on hover */
-    }
+.btn:hover {
+    background-color: #7a007a; /* Darker purple on hover */
+}
 
-/* Text Styles */
+/* Text Link Styles */
 .text-danger {
     color: #cc0000; /* Red color for delete account link */
     font-size: 24px; /* Match font size */
-    cursor: pointer; /* Pointer cursor */
 }
 
 .text-primary {
     color: #007bff; /* Blue color for log out link */
     font-size: 24px; /* Match font size */
-    cursor: pointer; /* Pointer cursor */
 }
 
 /* Margin Utilities */
@@ -88,7 +86,7 @@ input[type="password"] {
     margin-left: 1rem; /* Margin left for spacing */
 }
 
-/* Event Cards*/
+/* Event Cards */
 .event-cards {
     display: flex;
     flex-wrap: wrap; /* Allow cards to wrap to the next line */
@@ -133,10 +131,10 @@ input[type="password"] {
     height: 100vh; /* Full height */
 }
 
-    .sidebar h4 {
-        font-size: 24px; /* Font size for the header */
-        margin-bottom: 20px; /* Space below the header */
-    }
+.sidebar h4 {
+    font-size: 24px; /* Font size for the header */
+    margin-bottom: 20px; /* Space below the header */
+}
 
 .btn-sidebar {
     display: block; /* Make buttons block elements */
@@ -152,12 +150,12 @@ input[type="password"] {
     transition: background-color 0.3s; /* Smooth transition */
 }
 
-    .btn-sidebar:hover {
-        background-color: #5a32a1; /* Darker purple on hover */
-    }
+.btn-sidebar:hover {
+    background-color: #5a32a1; /* Darker purple on hover */
+}
 
 /* Scrollable Content */
 .scrollable {
     overflow-y: auto; /* Enable vertical scrolling */
     padding: 20px; /* Padding for main content */
-    background-color:
+}

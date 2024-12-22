@@ -160,6 +160,7 @@ C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.RazorAssemblyInfo.cache
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.RazorAssemblyInfo.cs
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.sourcelink.json
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\scopedcss\bundle\Eventure_ASP.styles.css
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\scopedcss\projectbundle\Eventure_ASP.bundle.scp.css
@@ -179,4 +180,3 @@ C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.pdb
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.genruntimeconfig.cache
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\ref\Eventure_ASP.dll
-C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.sourcelink.json

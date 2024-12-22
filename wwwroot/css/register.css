@@ -7,20 +7,20 @@
 }
 
 .form-control {
-    font-size: 24px; /* Increase font size for input fields */
+    font-size: 18px; /* Increase font size for input fields */
     padding: 15px; /* Increase padding for input fields */
-    height: 50px; /* Set a fixed height for input fields */
+    height: 25px; /* Set a fixed height for input fields */
     width: 100%; /* Make input fields take full width */
     max-width: 600px; /* Set a maximum width for the input fields */
 }
 
 .form-label {
     font-family: 'Tahoma', sans-serif; /* Set font to Tahoma */
-    font-size: 36px; /* Set font size to 36px */
+    font-size: 24px; /* Set font size to 36px */
     text-align: left; /* Align text to the left */
 }
 
-.login-container {
+.register-container {
     margin-top: 50px; /* Add margin to position the login form towards the top */
     width: 100%; /* Ensure the container takes full width */
     max-width: 600px; /* Set a maximum width for the login container */

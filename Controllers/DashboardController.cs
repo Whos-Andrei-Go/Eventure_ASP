@@ -3,6 +3,8 @@ using Eventure_ASP.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Eventure_ASP.Utilities; // Include the namespace for the Session class
+using System.Collections.Generic; // Ensure you have this for List<T>
+using System.Linq; // Ensure you have this for LINQ methods
 
 namespace Eventure_ASP.Controllers
 {
@@ -33,12 +35,30 @@ namespace Eventure_ASP.Controllers
 
         private List<Event> GetUpcomingEvents()
         {
-            return _context.Events
+            var currentUser = _session.GetCurrentUser(); // Get the current user from the session
+
+            if (currentUser == null)
+            {
+                return new List<Event>(); // Return an empty list if no user is found
+            }
+
+            // Get the user's tickets and join with TicketType to get EventId
+            var userUpcomingEvents = _context.Tickets
+                .Where(t => t.UserId == currentUser.Id) // Filter tickets by the current user's ID
+                .Include(t => t.TicketType) // Include TicketType to access EventId
+                .Select(t => t.TicketType.EventId) // Select EventId from TicketType
+                .Distinct() // Ensure unique EventIds
+                .ToList();
+
+            // Get upcoming events based on the user's tickets
+            var upcomingEvents = _context.Events
                 .Include(e => e.Creator) // Ensure Creator data is loaded
-                .Where(e => e.StartTime > DateTime.Now) // Filter for upcoming events
+                .Where(e => userUpcomingEvents.Contains(e.Id) && e.StartTime > DateTime.Now) // Filter for events with matching EventId and future start time
                 .OrderBy(e => e.StartTime)
                 .Take(5) // Limit to 5 upcoming events
                 .ToList();
+
+            return upcomingEvents;
         }
 
         private List<Event> GetUserEvents()
@@ -50,7 +70,7 @@ namespace Eventure_ASP.Controllers
                 return new List<Event>(); // Return an empty list if no user is found
             }
 
-            // Assuming you have a UserId property in your User model
+            // Get events for the tickets that are upcoming
             return _context.Events
                 .Include(e => e.Creator) // Ensure Creator data is loaded
                 .Where(e => e.CreatorId == currentUser.Id) // Filter events by the current user's ID

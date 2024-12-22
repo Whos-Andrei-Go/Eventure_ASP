@@ -12,8 +12,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>6qd3kei7a3</Fingerprint>
-      <Integrity>wit/qxoD3IHJ7DbHhqAwXfYStTPOtMdoYfk6wzHy7tU=</Integrity>
+      <Fingerprint>si420ulgd8</Fingerprint>
+      <Integrity>ZAv+wA7VGghEYXtfzPsufI+b6IlkThtlwt5m+2HwUa8=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\dashboard.css'))</OriginalItemSpec>
@@ -30,8 +30,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>kxg40cpmh2</Fingerprint>
-      <Integrity>SBECS0JpWFLXS4o5d7iAZMdTwEkiQ94pCjhHlFgsCG4=</Integrity>
+      <Fingerprint>20azx9gslc</Fingerprint>
+      <Integrity>nl3kqfQH9LOc+jUcpiEMqTD10ns9A/fPjCIvMLSfAkc=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\events.css'))</OriginalItemSpec>
@@ -48,8 +48,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>7ggxhxslhx</Fingerprint>
-      <Integrity>h6YQRI2d2tlTxTauqc5B/ZgKpEnBuASEs1DYRzVZiIg=</Integrity>
+      <Fingerprint>9591g15owz</Fingerprint>
+      <Integrity>cxftWPFFZFOYvNLDfonYJO/FTvDZi//EE3aLCKt+ZCo=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\login.css'))</OriginalItemSpec>
@@ -66,11 +66,29 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>l7vys0ca2l</Fingerprint>
-      <Integrity>f1HgcGODDRvVJDYWCoWU4s2623PgKeNJNj/FWvugsZ4=</Integrity>
+      <Fingerprint>ki9s3imdxv</Fingerprint>
+      <Integrity>LCqiX9X0xj97PM0p5QQnxGd9CDlnBpJRUIguzhM7Gws=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\profile.css'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\register.css'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Eventure_ASP</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Eventure_ASP</BasePath>
+      <RelativePath>css/register.css</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>jbbzscffc5</Fingerprint>
+      <Integrity>DyCeJY64/UJclKeQ0tcVJqE834NB69TAlZQJmq5wcFo=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\register.css'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))">
       <SourceType>Package</SourceType>

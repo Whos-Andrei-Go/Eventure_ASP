@@ -1,59 +1,41 @@
 ﻿@model Eventure_ASP.Models.ProfileViewModel
 
-<div class="container">
-    <h1 class="display-4">OVERVIEW</h1>
-    <form asp-action="UpdateUser " method="post">
-        <div class="form-group">
-            <label for="FirstName">First Name:</label>
-            <input type="text" class="form-control" id="FirstName" name="FirstName" value="@Model.FirstName" required />
-        </div>
-        <div class="form-group">
-            <label for="LastName">Last Name:</label>
-            <input type="text" class="form-control" id="LastName" name="LastName" value="@Model.LastName" required />
-        </div>
-        <div class="form-group">
-            <label for="Username">Username:</label>
-            <input type="text" class="form-control" id="Username" name="Username" value="@Model.Username" required />
-        </div>
-        <div class="form-group">
-            <label for="Email">Email:</label>
-            <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" required />
-        </div>
-        <div class="form-group">
-            <label for="CurrentPassword">Current Password:</label>
-            <input type="password" class="form-control" id="CurrentPassword" name="CurrentPassword" required />
-        </div>
-        <div class="form-group">
-            <label for="NewPassword">New Password:</label>
-            <input type="password" class="form-control" id="NewPassword" name="NewPassword" />
-        </div>
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-    </form>
-
-    <div class="mt-3">
-        <a href="#" class="text-danger" id="deleteAccount">Delete Account</a>
-        <span class="ml-3">
-            <a href="#" class="text-primary" id="logOut">Log Out</a>
-        </span>
+<h1 class="display-4">OVERVIEW</h1>
+<form asp-action="UpdateUser " method="post">
+    <div class="form-group">
+        <label for="FirstName">First Name:</label>
+        <input type="text" class="form-control" id="FirstName" name="FirstName" value="@Model.FirstName" required />
     </div>
+    <div class="form-group">
+        <label for="LastName">Last Name:</label>
+        <input type="text" class="form-control" id="LastName" name="LastName" value="@Model.LastName" required />
+    </div>
+    <div class="form-group">
+        <label for="Username">Username:</label>
+        <input type="text" class="form-control" id="Username" name="Username" value="@Model.Username" required />
+    </div>
+    <div class="form-group">
+        <label for="Email">Email:</label>
+        <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" required />
+    </div>
+    <div class="form-group">
+        <label for="CurrentPassword">Current Password:</label>
+        <input type="password" class="form-control" id="CurrentPassword" name="CurrentPassword" required />
+    </div>
+    <div class="form-group">
+        <label for="NewPassword">New Password:</label>
+        <input type="password" class="form-control" id="NewPassword" name="NewPassword" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+<div class="mt-3">
+    <form asp-action="DeleteAccount" method="post" style="display:inline;">
+        <label class="text-danger" style="cursor: pointer;" onclick="if(confirm('Are you sure you want to delete your account? This action cannot be undone.')) { this.closest('form').submit(); }">Delete Account</label>
+    </form>
+    <span class="ml-3">
+        <form asp-action="Logout" method="post" style="display:inline;">
+            <label class="text-primary" style="cursor: pointer;" onclick="if(confirm('Are you sure you want to log out?')) { this.closest('form').submit(); }">Log Out</label>
+        </form>
+    </span>
 </div>
-
-@section Scripts {
-    <script>
-        document.getElementById('deleteAccount').addEventListener('click', function (event) {
-            event.preventDefault();
-            if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-                // Call the delete account action
-                window.location.href = '@Url.Action("DeleteAccount", "Profile")';
-            }
-        });
-
-        document.getElementById('logOut').addEventListener('click', function (event) {
-            event.preventDefault();
-            if (confirm('Are you sure you want to log out?')) {
-                // Call the logout action
-                window.location.href = '@Url.Action("Logout", "Account")';
-            }
-        });
-    </script>
-}

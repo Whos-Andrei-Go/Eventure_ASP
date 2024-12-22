@@ -25,5 +25,7 @@ public partial class User
 
     public virtual ICollection<Event> Events { get; set; } = new List<Event>();
 
+    public virtual ICollection<PaymentMethod> PaymentMethods { get; set; } = new List<PaymentMethod>();
+
     public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
 }

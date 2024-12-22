@@ -1,0 +1,65 @@
+﻿@model Eventure_ASP.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = null; // Disable the shared layout if needed
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link href="~/css/register.css" rel="stylesheet" /> <!-- Link to the new register.css -->
+    <title>@ViewData["Title"] - Eventure_ASP</title>
+</head>
+<body>
+    <div class="container-fluid vh-100 p-0">
+        <div class="row vh-100 m-0">
+            <div class="col-md-6 d-flex justify-content-center align-items-center bg-purple text-white">
+                <div class="text-center">
+                    <img src="~/images/logo.png" alt="Logo" class="img-fluid" style="max-width: 80%; height: auto;" />
+                </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <div class="register-container text-center">
+                    <!-- Added text-center class here -->
+                    <h1 class="header">Register</h1>
+
+                    <form asp-action="Register" method="post">
+                        <div class="mb-3">
+                            <label for="FirstName" class="form-label">First Name:</label>
+                            <input type="text" class="form-control" id="FirstName" name="FirstName" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="LastName" class="form-label">Last Name:</label>
+                            <input type="text" class="form-control" id="LastName" name="LastName" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Username" class="form-label">Username:</label>
+                            <input type="text" class="form-control" id="Username" name="Username" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Email" class="form-label">Email:</label>
+                            <input type="email" class="form-control" id="Email" name="Email" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Password" class="form-label">Password:</label>
+                            <input type="password" class="form-control" id="Password" name="Password" required />
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Register</button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <a href="@Url.Action("Login", "Account")" class="btn btn-link">Already have an account?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

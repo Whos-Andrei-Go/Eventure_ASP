@@ -1,20 +1,67 @@
-﻿@* _PaymentMethods.cshtml *@
-<div>
-    <h2>Payment Methods</h2>
-    @if (Model.PaymentMethods.Any())
-    {
-        <ul>
-            @foreach (var method in Model.PaymentMethods)
-            {
-                <li>
-                    <strong>@method.Type</strong> - **** **** **** @method.LastFourDigits
-                    <span class="text-muted">(@method.Status)</span>
-                </li>
-            }
-        </ul>
-    }
-    else
-    {
-        <p>No payment methods added.</p>
-    }
+﻿@model Eventure_ASP.Models.ProfileViewModel
+
+<h1 class="display-4">PAYMENT METHODS</h1>
+
+<div class="form-group">
+    <label for="paymentMethodSelect">Method:</label>
+    <select id="paymentMethodSelect" class="form-control" onchange="updateFields()">
+        <option value="">Select a payment method</option>
+        @foreach (var method in Model.PaymentMethods)
+        {
+            <option value="@method.Id" data-accountnumber="@method.AccountNumber" data-expirationdate="@(method.ExpirationDate.HasValue ? method.ExpirationDate.Value.ToString("MM/yyyy") : "")" data-isdefault="@method.IsDefault">@method.PaymentType</option>
+        }
+    </select>
 </div>
+
+<div class="form-group">
+    <label for="accountNumber">Account Number:</label>
+    <input type="text" id="accountNumber" class="form-control" value="" />
+</div>
+
+<div class="form-group">
+    <label for="expirationDate">Expiration Date:</label>
+    <input type="text" id="expirationDate" class="form-control" placeholder="MM/yyyy" value="" />
+</div>
+
+<div class="form-group form-check">
+    <input type="checkbox" id="isDefault" class="form-check-input" />
+    <label for="isDefault" class="form-check-label">Default Payment Method</label>
+</div>
+
+<div class="button-group">
+    <button type="button" class="btn" onclick="submitUpdate()">Update Payment Method</button>
+    <button type="button" class="btn btn-danger" onclick="submitDelete()">Delete Payment Method</button>
+    <button type="button" class="btn btn-primary" onclick="addPaymentMethod()">Add New Payment Method</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var paymentMethodSelect = document.getElementById("paymentMethodSelect");
+        var firstPaymentMethodId = "@(Model.PaymentMethods.Count > 0 ? Model.PaymentMethods[0].Id.ToString() : "")";
+
+        if (firstPaymentMethodId) {
+            paymentMethodSelect.value = firstPaymentMethodId;
+            updateFields(); // Call the function to update the fields based on the selected payment method
+        }
+    });
+
+    function updateFields() {
+        var paymentMethodSelect = document.getElementById("paymentMethodSelect");
+        var selectedOption = paymentMethodSelect.options[paymentMethodSelect.selectedIndex];
+
+        if (selectedOption.value) {
+            var accountNumber = selectedOption.getAttribute("data-accountnumber");
+            var expirationDate = selectedOption.getAttribute("data-expirationdate");
+            var isDefault = selectedOption.getAttribute("data-isdefault") === "true";
+
+            document.getElementById("accountNumber").value = accountNumber;
+            document.getElementById("expirationDate").value = expirationDate;
+            document.getElementById("isDefault").checked = isDefault;
+        } else {
+            // Clear fields if no payment method is selected
+            document.getElementById("accountNumber").value = "";
+            document.getElementById("expirationDate").value = "";
+            document.getElementById("isDefault").checked = false;
+        }
+    }
+</script>

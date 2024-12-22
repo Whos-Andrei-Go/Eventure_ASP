@@ -20,6 +20,8 @@ public partial class EtsDbContext : DbContext
 
     public virtual DbSet<Offer> Offers { get; set; }
 
+    public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
+
     public virtual DbSet<Ticket> Tickets { get; set; }
 
     public virtual DbSet<TicketType> TicketTypes { get; set; }
@@ -78,6 +80,36 @@ public partial class EtsDbContext : DbContext
             entity.Property(e => e.EndDate).HasColumnName("end_date");
             entity.Property(e => e.EventId).HasColumnName("event_id");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
+        });
+
+        modelBuilder.Entity<PaymentMethod>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__PaymentM__3214EC07794C1BC9");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AccountNumber)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("account_number");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.ExpirationDate).HasColumnName("expiration_date");
+            entity.Property(e => e.IsDefault).HasColumnName("is_default");
+            entity.Property(e => e.PaymentType)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("payment_type");
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.User).WithMany(p => p.PaymentMethods)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PaymentMethods_Users");
         });
 
         modelBuilder.Entity<Ticket>(entity =>
