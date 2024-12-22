@@ -58,6 +58,7 @@ namespace Eventure_ASP.Controllers
                 model.Events = _context.Events.ToList();
                 model.Tickets = _context.Tickets.Include(t => t.TicketType).ToList();
                 model.EventHistory = _context.Events
+                    .Include(e => e.Creator) // Include TicketType to access EventId
                     .Where(e => e.StartTime.HasValue && e.StartTime.Value < currentDate)
                     .ToList();
                 model.PaymentMethods = _context.PaymentMethods

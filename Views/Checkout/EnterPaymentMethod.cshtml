@@ -1,0 +1,93 @@
+﻿@model Eventure_ASP.Models.EnterPaymentMethodViewModel
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/checkout.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> <!-- Include jQuery -->
+</head>
+<body>
+    <div class="container">
+        <h1 class="display-4 text-center">ENTER PAYMENT METHOD</h1>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Your Cart</h5>
+                    </div>
+                    <div class="card-body" id="cartItems">
+                        @if (Model.CartTickets != null && Model.CartTickets.Any())
+                        {
+                            foreach (var ticket in Model.CartTickets)
+                            {
+                                <div class="checkout-item">
+                                    <h6>@ticket.TicketType.Name</h6>
+                                    <p>Price: @ticket.TicketType.Price.ToString("C")</p>
+                                    <p>Quantity: @ticket.Quantity</p>
+                                    <p>Total: @(ticket.TicketType.Price * ticket.Quantity)</p>
+                                    <hr />
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Your cart is empty.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Payment Method</h5>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="CompleteCheckout" method="post">
+                            <div class="form-group">
+                                <label for="paymentMethod">Method of Payment:</label>
+                                <select id="paymentMethod" name="paymentMethodId" class="form-control" required>
+                                    @foreach (var method in Model.PaymentMethods)
+                                    {
+                                        <option value="@method.Id" data-accountnumber="@method.AccountNumber" data-expirationdate="@method.ExpirationDate?.ToString("MM/yyyy")">@method.PaymentType</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="accountNumber">Account Number:</label>
+                                <input type="text" class="form-control" id="accountNumber" name="accountNumber" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="expirationDate">Expiration Date:</label>
+                                <input type="text" class="form-control" id="expirationDate" name="expirationDate" placeholder="MM/YYYY" required />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Complete Checkout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#paymentMethod').change(function () {
+                var selectedOption = $(this).find('option:selected');
+                var accountNumber = selectedOption.data('accountnumber');
+                var expirationDate = selectedOption.data('expirationdate');
+
+                $('#accountNumber').val(accountNumber);
+                $('#expirationDate').val(expirationDate);
+            });
+        });
+    </script>
+</body>
+</html>

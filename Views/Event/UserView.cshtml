@@ -1,5 +1,77 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model Eventure_ASP.Models.EventViewModel
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
 }
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Eventure - Event</title>
+    <link rel="stylesheet" href="~/css/event.css" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">@Model.Event.Name</h1>
+
+        <div class="form-group">
+            <label>Event Location:</label>
+            <p>@Model.Event.Location</p>
+        </div>
+
+        <div class="form-group">
+            <label>Event Start Date:</label>
+            <p>@Model.Event.StartTime?.ToString("yyyy-MM-dd HH:mm")</p>
+        </div>
+
+        <div class="form-group">
+            <label>Event End Date:</label>
+            <p>@Model.Event.EndTime?.ToString("yyyy-MM-dd HH:mm")</p>
+        </div>
+
+        <div class="form-group">
+            <label>Event Description:</label>
+            <textarea class="form-control" readonly>@Model.Event.Description</textarea>
+        </div>
+
+        <h2>Buy Tickets:</h2>
+        <form method="post" action="@Url.Action("AddToCart", "Cart")">
+            <input type="hidden" name="eventId" value="@Model.Event.Id" /> <!-- Include the eventId -->
+
+            <div class="form-group">
+                <label for="ticketType">Ticket Type:</label>
+                <select id="ticketType" name="ticketTypeId" class="form-control">
+                    @foreach (var ticketType in Model.TicketTypes)
+                    {
+                        <option value="@ticketType.Id" data-price="@ticketType.Price">@ticketType.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" name="quantity" class="form-control" min="1" value="1" />
+            </div>
+
+            <div class="form-group">
+                <label>Price per Ticket:</label>
+                <p id="pricePerTicket">PHP @Model.TicketTypes.FirstOrDefault()?.Price.ToString("F2")</p>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add to Cart</button>
+            <a href="@Url.Action("Index", "Events")" class="btn btn-secondary">Back to Events</a>
+
+            <div class="summary">
+                <p>Quantity Left: <span>@Model.TicketTypes.FirstOrDefault()?.Quantity</span></p>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

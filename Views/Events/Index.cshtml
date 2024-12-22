@@ -23,7 +23,7 @@
                 foreach (var eventItem in Model)
                 {
                     <div class="event-card">
-                        <a href="@Url.Action("OrganizerView", "Event", new { eventId = eventItem.Id })" class="event-card">
+                        <a href="@Url.Action("ReturnView", "Event", new { eventId = eventItem.Id })" class="event-card">
                             <h3 class="event-name">@eventItem.Name</h3>
                             <p>
                                 @if (eventItem.StartTime.HasValue)

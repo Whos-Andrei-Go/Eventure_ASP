@@ -72,9 +72,8 @@ namespace Eventure_ASP.Controllers
             return View(model);
         }
 
-        public IActionResult OrganizerView(int eventId)
+        public IActionResult ReturnView(int eventId)
         {
-            // Fetch the event from the database
             var eventDetails = _eventService.GetEventById(eventId);
 
             if (eventDetails == null)
@@ -86,24 +85,68 @@ namespace Eventure_ASP.Controllers
             var currentUser = _session.GetCurrentUser();
             var currentUserId = currentUser?.Id ?? -1;
 
-            if (eventDetails.CreatorId != currentUserId)
+            // Check if the current user is the creator of the event
+            if (eventDetails.CreatorId == currentUserId)
+    {
+                return OrganizerView(eventId); // Return the organizer view
+            }
+
+            return UserView(eventId); // Return the user view
+        }
+
+        public IActionResult OrganizerView(int eventId)
+        {
+            // Fetch the event from the database
+            var eventDetails = _eventService.GetEventById(eventId);
+
+            if (eventDetails == null)
             {
-                return Forbid(); // Prevent access if the user is not the creator
+                return NotFound(); // Handle the case where the event is not found
             }
 
             // Fetch ticket types associated with the event
             var ticketTypes = _ticketService.GetTicketTypesByEventId(eventId);
 
             // Prepare the view model
-            var model = new OrganizerEventViewModel
+            var model = new EventViewModel
             {
                 Event = eventDetails,
                 TicketTypes = ticketTypes,
                 TicketsSold = $"Tickets Sold: {_ticketService.GetEventTicketsSold(eventId)}",
-                Revenue = $"Revenue: {_eventService.GetEventRevenue(eventId)}"
+                Revenue = $"Revenue: {_eventService.GetEventRevenue(eventId)}",
+                StartDate = eventDetails.StartTime?.Date ?? DateTime.Now.Date, // Set to current date if null
+                StartTime = eventDetails.StartTime ?? DateTime.Now, // Set to current time if null
+                EndDate = eventDetails.EndTime?.Date ?? DateTime.Now.Date, // Set to current date if null
+                EndTime = eventDetails.EndTime ?? DateTime.Now // Set to current time if null
             };
 
-            return View(model);
+            return View("OrganizerView", model);
+        }
+
+        public IActionResult UserView(int eventId)
+        {
+            var eventDetails = _eventService.GetEventById(eventId);
+
+            if (eventDetails == null)
+            {
+                return NotFound(); // Handle the case where the event is not found
+            }
+
+            var ticketTypes = _ticketService.GetTicketTypesByEventId(eventId);
+
+            var model = new EventViewModel
+            {
+                Event = eventDetails,
+                TicketTypes = ticketTypes,
+                TicketsSold = "",
+                Revenue = "",
+                StartDate = eventDetails.StartTime?.Date ?? DateTime.Now.Date, // Set to current date if null
+                StartTime = eventDetails.StartTime ?? DateTime.Now, // Set to current time if null
+                EndDate = eventDetails.EndTime?.Date ?? DateTime.Now.Date, // Set to current date if null
+                EndTime = eventDetails.EndTime ?? DateTime.Now // Set to current time if null
+            };
+
+            return View("UserView", model);
         }
 
         [HttpPost]

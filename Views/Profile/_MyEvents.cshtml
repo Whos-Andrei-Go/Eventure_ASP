@@ -19,13 +19,24 @@
                 }
                 else
                 {
-                    foreach (var eventDetails in userEvents)
+                    foreach (var eventItem in userEvents)
                     {
                         <div class="event-card">
-                            <h2 class="event-name">@eventDetails.Name</h2>
-                            <p class="event-location">@eventDetails.Location</p>
-                            <p class="event-start-date">Start: @eventDetails.StartTime?.ToString("MMMM dd, yyyy")</p>
-                            <p class="event-end-date">End: @eventDetails.EndTime?.ToString("MMMM dd, yyyy")</p>
+                            <a href="@Url.Action("ReturnView", "Event", new { eventId = eventItem.Id })" class="event-card">
+                                <h3 class="event-name">@eventItem.Name</h3>
+                                <p>
+                                    @if (eventItem.StartTime.HasValue)
+                                    {
+                                        @eventItem.StartTime.Value.ToString("yyyy-MM-dd HH:mm")
+                                    }
+                                    else
+                                    {
+                                        <span>Start time not available</span>
+                                    }
+                                </p>
+                                <p>Location: @eventItem.Location</p>
+                                <p>Organizer: @eventItem.Creator?.Username</p>
+                            </a>
                         </div>
                     }
                 }

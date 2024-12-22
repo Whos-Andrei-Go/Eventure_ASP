@@ -104,6 +104,7 @@ input[type="password"] {
     color: #ffffff; /* White text color */
     transition: transform 0.2s; /* Smooth transition for hover effect */
     cursor: pointer; /* Pointer cursor on hover */
+    text-decoration:none;
 }
 
 .event-card:hover {

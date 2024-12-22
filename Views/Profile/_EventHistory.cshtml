@@ -30,10 +30,21 @@
                                 {
                                     hasEvents = true; // Set flag to true if an event is added
                                     <div class="event-card">
-                                        <h2 class="event-name">@eventDetails.Name</h2>
-                                        <p class="event-location">@eventDetails.Location</p>
-                                        <p class="event-start-date">Start: @eventDetails.StartTime?.ToString("MMMM dd, yyyy")</p>
-                                        <p class="event-end-date">End: @eventDetails.EndTime?.ToString("MMMM dd, yyyy")</p>
+                                        <a href="@Url.Action("ReturnView", "Event", new { eventId = eventDetails.Id })" class="event-card">
+                                            <h3 class="event-name">@eventDetails.Name</h3>
+                                            <p>
+                                                @if (eventDetails.StartTime.HasValue)
+                                                {
+                                                    @eventDetails.StartTime.Value.ToString("yyyy-MM-dd HH:mm")
+                                                }
+                                                else
+                                                {
+                                                    <span>Start time not available</span>
+                                                }
+                                            </p>
+                                            <p>Location: @eventDetails.Location</p>
+                                            <p>Organizer: @eventDetails.Creator?.Username</p>
+                                        </a>
                                     </div>
                                     addedEventIds.Add(eventDetails.Id);
                                 }

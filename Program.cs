@@ -11,6 +11,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<CartService>();
 builder.Services.AddScoped<EventService>();
 builder.Services.AddScoped<TicketService>();
+builder.Services.AddScoped<PaymentMethodService>();
 builder.Services.AddDbContext<EtsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection")));
 

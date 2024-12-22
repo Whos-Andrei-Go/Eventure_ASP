@@ -5,8 +5,16 @@
       "PackagePath": "staticwebassets\\Eventure_ASP.7jpgmovz02.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\andre\\OneDrive\\Documents\\USC\\2nd Year\\2103\\Eventure_ASP\\wwwroot\\css\\checkout.css",
+      "PackagePath": "staticwebassets\\css\\checkout.css"
+    },
+    {
       "Id": "C:\\Users\\andre\\OneDrive\\Documents\\USC\\2nd Year\\2103\\Eventure_ASP\\wwwroot\\css\\dashboard.css",
       "PackagePath": "staticwebassets\\css\\dashboard.css"
+    },
+    {
+      "Id": "C:\\Users\\andre\\OneDrive\\Documents\\USC\\2nd Year\\2103\\Eventure_ASP\\wwwroot\\css\\event.css",
+      "PackagePath": "staticwebassets\\css\\event.css"
     },
     {
       "Id": "C:\\Users\\andre\\OneDrive\\Documents\\USC\\2nd Year\\2103\\Eventure_ASP\\wwwroot\\css\\events.css",
@@ -15,10 +23,6 @@
     {
       "Id": "C:\\Users\\andre\\OneDrive\\Documents\\USC\\2nd Year\\2103\\Eventure_ASP\\wwwroot\\css\\login.css",
       "PackagePath": "staticwebassets\\css\\login.css"
-    },
-    {
-      "Id": "C:\\Users\\andre\\OneDrive\\Documents\\USC\\2nd Year\\2103\\Eventure_ASP\\wwwroot\\css\\organizer-event.css",
-      "PackagePath": "staticwebassets\\css\\organizer-event.css"
     },
     {
       "Id": "C:\\Users\\andre\\OneDrive\\Documents\\USC\\2nd Year\\2103\\Eventure_ASP\\wwwroot\\css\\profile.css",
