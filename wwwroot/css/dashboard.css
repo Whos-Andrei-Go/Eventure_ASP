@@ -2,6 +2,12 @@
     padding: 20px;
 }
 
+.header-container {
+    display: flex; /* Use flexbox to align items */
+    justify-content: space-between; /* Space between header and clock */
+    align-items: center; /* Center items vertically */
+}
+
 .header {
     font-size: 64px;
     font-family: 'Riffic Free Medium', sans-serif; /* Use a similar font */
@@ -15,45 +21,6 @@
 }
 
 .event-card {
-    width: 250px;
-    height: 250px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    margin: 10px;
-    padding: 10px;
-    display: inline-block;
-    vertical-align: top;
-    text-align: center;
-}
-
-.btn-create-event {
-    background-color: #990099; /* Similar to Color(153, 0, 153) */
-    color: white;
-    font-size: 24px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-    .btn-create-event:hover {
-        background-color: #770077; /* Darker shade on hover */
-    }
-
-.event-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    overflow-x: auto; /* Allow horizontal scrolling */
-}
-
-.clock {
-    font-size: 48px;
-    font-family: 'Riffic Free Medium', sans-serif;
-    margin-bottom: 20px;
-}
-
-.event-card {
     background-color: #800080; /* Purple background */
     border-radius: 10px; /* Rounded corners */
     padding: 15px; /* Inner padding */
@@ -62,6 +29,7 @@
     color: #ffffff; /* White text color */
     transition: transform 0.2s; /* Smooth transition for hover effect */
     cursor: pointer; /* Pointer cursor on hover */
+    text-decoration: none;
 }
 
 .event-card:hover {
@@ -74,9 +42,38 @@
     margin-bottom: 10px; /* Space below the title */
 }
 
+
 .event-location,
 .event-start-date,
 .event-end-date {
-    font-size: 12px; /* Font size for other details */
+    font-size: 18px; /* Font size for other details */
     margin: 5px 0; /* Space between paragraphs */
+}
+
+
+.btn-create-event {
+    background-color: #990099; /* Similar to Color(153, 0, 153) */
+    color: white;
+    font-size: 24px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-create-event:hover {
+    background-color: #770077; /* Darker shade on hover */
+}
+
+.event-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow-x: auto; /* Allow horizontal scrolling */
+}
+
+.clock {
+    font-size: 48px;
+    font-family: 'Riffic Free Medium', sans-serif;
+    margin-bottom: 20px;
 }

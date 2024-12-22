@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Eventure_ASP.Data;
+using Eventure_ASP.Services;
 using Eventure_ASP.Utilities;
 using Microsoft.AspNetCore.Http; // Include this namespace for IHttpContextAccessor
 
@@ -7,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<CartService>();
+builder.Services.AddScoped<EventService>();
+builder.Services.AddScoped<TicketService>();
 builder.Services.AddDbContext<EtsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection")));
 

@@ -1,0 +1,180 @@
+﻿@model Eventure_ASP.Models.OrganizerEventViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Eventure - Organizer Event</title>
+    <link rel="stylesheet" href="~/css/organizer-event.css" />
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .form-column {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+            .form-column:last-child {
+                margin-right: 0;
+            }
+
+        .ticket-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+            .ticket-list li {
+                margin: 5px 0;
+            }
+
+        .btn-add, .btn-save, .btn-back {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">@Model.Event.Name</h1>
+
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="eventName">Event Name:</label>
+                    <input type="text" id="eventName" class="form-control" value="@Model.Event.Name" />
+                </div>
+
+                <div class="form-group">
+                    <label for="eventLocation">Event Location:</label>
+                    <input type="text" id="eventLocation" class="form-control" value="@Model.Event.Location" />
+                </div>
+
+                <div class="form-group">
+                    <label for="eventDescription">Event Description:</label>
+                    <textarea id="eventDescription" class="form-control">@Model.Event.Description</textarea>
+                </div>
+            </div>
+
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="startDate">Event Start Date:</label>
+                    <input type="date" id="startDate" class="form-control"
+                           value="@Model.Event.StartTime?.ToString("yyyy-MM-dd") ?? string.Empty" />
+                </div>
+
+                <div class="form-group">
+                    <label for="startTime">Event Start Time:</label>
+                    <input type="time" id="startTime" class="form-control"
+                           value="@Model.Event.StartTime?.ToString("HH:mm") ?? string.Empty" />
+                </div>
+
+                <div class="form-group">
+                    <label for="endDate">Event End Date:</label>
+                    <input type="date" id="endDate" class="form-control"
+                           value="@Model.Event.EndTime?.ToString("yyyy-MM-dd") ?? string.Empty" />
+                </div>
+
+                <div class="form-group">
+                    <label for="endTime">Event End Time:</label>
+                    <input type="time" id="endTime" class="form-control"
+                           value="@Model.Event.EndTime?.ToString("HH:mm") ?? string.Empty" />
+                </div>
+            </div>
+        </div>
+
+        <h2>Ticket Types</h2>
+        <ul class="ticket-list">
+            @if (Model.TicketTypes != null && Model.TicketTypes.Any())
+            {
+                foreach (var ticket in Model.TicketTypes)
+                {
+                    <li>
+                        @ticket.Name - PHP @ticket.Price - Quantity: @ticket.Quantity
+                        <button class="btn-edit" data-id="@ticket.Id">Edit</button>
+                    </li>
+                }
+            }
+            else
+            {
+                <li>No ticket types available.</li>
+            }
+        </ul>
+
+        <button class="btn-add" id="btnAddTicketType">Add Ticket Type</button>
+        <button class="btn-save">Save Changes</button>
+        <button class="btn-back">Back to Events</button>
+
+        <div class="summary">
+            <p>@Model.TicketsSold</p>
+            <p>@Model.Revenue</p>
+        </div>
+    </div>
+
+    <script>
+               document.getElementById('btnAddTicketType').addEventListener('click', function() {
+        // Logic to open a dialog to add a new ticket type
+               });
+
+               document.querySelectorAll('.btn-edit').forEach(button => {
+                   button.addEventListener('click', function() {
+                       const ticketId = this.getAttribute('data-id');
+                       // Logic to open a dialog to edit the ticket type
+                   });
+               });
+
+               document.querySelector('.btn-save').addEventListener('click', function() {
+                   // Logic to gather data and save changes
+                   const eventName = document.getElementById('eventName').value;
+                   const eventLocation = document.getElementById('eventLocation').value;
+                   const eventDescription = document.getElementById('eventDescription').value;
+                   const startDate = document.getElementById('startDate').value;
+                   const startTime = document.getElementById('startTime').value;
+                   const endDate = document.getElementById('endDate').value;
+                   const endTime = document.getElementById('endTime').value;
+
+                   // Send data to the server via AJAX or form submission
+                   fetch('/Organizer/SaveEvent', {
+                       method: 'POST',
+                       headers: {
+                           'Content-Type': 'application/json'
+                       },
+                       body: JSON.stringify({
+                           name: eventName,
+                           location: eventLocation,
+                           description: eventDescription,
+                           startDate: startDate,
+                           startTime: startTime,
+                           endDate: endDate,
+                           endTime: endTime
+                       })
+                   })
+                   .then(response => response.json())
+                   .then(data => {
+                       if (data.success) {
+                           alert('Event saved successfully!');
+                           // Optionally redirect or refresh the page
+                       } else {
+                           alert('Failed to save event. Please try again.');
+                       }
+                   });
+               });
+
+               document.querySelector('.btn-back').addEventListener('click', function() {
+                   window.location.href = '/Events/Index'; // Redirect to the events list
+               });
+    </script>
+</body>
+</html>

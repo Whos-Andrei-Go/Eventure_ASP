@@ -23,11 +23,13 @@ namespace Eventure_ASP.Controllers
         {
             var upcomingEvents = GetUpcomingEvents() ?? new List<Event>(); // Ensure no null
             var userEvents = GetUserEvents() ?? new List<Event>(); // Ensure no null
+            var userRole = _session.GetCurrentUser()?.Role ?? "User"; // Set the role based on the user's claims
 
             var viewModel = new DashboardViewModel
             {
                 UpcomingEvents = upcomingEvents,
-                YourEvents = userEvents
+                YourEvents = userEvents,
+                UserRole = userRole
             };
 
             return View(viewModel);

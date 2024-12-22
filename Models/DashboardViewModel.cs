@@ -5,5 +5,7 @@
         public List<Event> UpcomingEvents { get; set; } = new List<Event>();
 
         public List<Event> YourEvents { get; set; } = new List<Event>();
+
+        public String UserRole { get; set; } = String.Empty;
     }
 }

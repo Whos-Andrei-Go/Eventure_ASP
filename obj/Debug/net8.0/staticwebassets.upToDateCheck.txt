@@ -1,6 +1,7 @@
 wwwroot\css\dashboard.css
 wwwroot\css\events.css
 wwwroot\css\login.css
+wwwroot\css\organizer-event.css
 wwwroot\css\profile.css
 wwwroot\css\register.css
 wwwroot\css\site.css

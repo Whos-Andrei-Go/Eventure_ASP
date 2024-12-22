@@ -22,7 +22,7 @@ namespace Eventure_ASP.Controllers
             _passwordUtils = passwordUtils; // Assign the injected password utility
         }
 
-        private ProfileViewModel getModel()
+        private ProfileViewModel GetModel()
         {
             var currentDate = DateTime.Now;
 
@@ -70,12 +70,12 @@ namespace Eventure_ASP.Controllers
 
         public IActionResult Index()
         {
-            return View(getModel());
+            return View(GetModel());
         }
 
         public IActionResult LoadView(string view)
         {
-            var model = getModel();
+            var model = GetModel();
 
             switch (view)
             {
@@ -97,44 +97,40 @@ namespace Eventure_ASP.Controllers
         [HttpPost]
         public IActionResult UpdateUser(ProfileViewModel model)
         {
-            if (ModelState.IsValid)
+            var user = _session.GetCurrentUser(); // Get the user ID from the session
+
+            if (user != null)
             {
-                var userId = _session.GetCurrentUser().Id; // Get the user ID from the session
-                var user = _context.Users.Find(userId);
+                // Update user details
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Username = model.Username;
+                user.Email = model.Email;
 
-                if (user != null)
+                // Check if the current password is provided
+                if (!string.IsNullOrEmpty(model.CurrentPassword))
                 {
-                    // Update user details
-                    user.FirstName = model.FirstName;
-                    user.LastName = model.LastName;
-                    user.Username = model.Username;
-                    user.Email = model.Email;
-
-                    // Check if the current password is provided
-                    if (!string.IsNullOrEmpty(model.CurrentPassword))
+                    // Verify the current password
+                    if (_passwordUtils.VerifyPassword(user.Password, model.CurrentPassword))
                     {
-                        // Verify the current password
-                        if (_passwordUtils.VerifyPassword(user.Password, model.CurrentPassword))
+                        // Update the password if a new one is provided
+                        if (!string.IsNullOrEmpty(model.NewPassword))
                         {
-                            // Update the password if a new one is provided
-                            if (!string.IsNullOrEmpty(model.NewPassword))
-                            {
-                                user.Password = _passwordUtils.HashPassword(model.NewPassword); // Hash the new password before saving
-                            }
-                        }
-                        else
-                        {
-                            ModelState.AddModelError("CurrentPassword", "The current password is incorrect.");
-                            return View(getModel()); // Return the view with the model to show the error
+                            user.Password = _passwordUtils.HashPassword(model.NewPassword); // Hash the new password before saving
                         }
                     }
-
-                    _context.SaveChanges(); // Save changes to the database
-                    return RedirectToAction("Overview"); // Redirect to the overview page after successful update
+                    else
+                    {
+                        ModelState.AddModelError("CurrentPassword", "The current password is incorrect.");
+                        return View("Index", GetModel()); // Return to the main profile view
+                    }
                 }
+
+                _context.SaveChanges(); // Save changes to the database
+                return View("Index", GetModel()); // Return to the main profile view
             }
 
-            return View(getModel()); // Return the view with the model if validation fails
+            return View("Index", GetModel()); // Return to the main profile view if validation fails
         }
 
         public IActionResult DeleteAccount()

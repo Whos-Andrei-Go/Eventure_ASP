@@ -1,4 +1,6 @@
 ﻿using Eventure_ASP.Data;
+using Eventure_ASP.Models;
+using Eventure_ASP.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,35 +8,52 @@ namespace Eventure_ASP.Controllers
 {
     public class CheckoutController : Controller
     {
-        private readonly EtsDbContext _context;
+        private readonly CartService _cartService;
+        private readonly EtsDbContext _context; // Your DbContext for accessing the database
 
-        public CheckoutController(EtsDbContext context)
+        public CheckoutController(CartService cartService, EtsDbContext context)
         {
-            _context = context;
+            _cartService = cartService;
+            _context = context; // Initialize the DbContext
         }
 
         public IActionResult Index()
         {
-            return View();
+            var model = new CheckoutViewModel
+            {
+                CartTickets = _cartService.GetCartTickets(),
+                CartTotal = _cartService.GetCartTotal()
+            };
+            return View(model);
         }
 
-        public IActionResult LoadView(string view)
+        [HttpPost]
+        public IActionResult CompleteCheckout(string currentPassword, string newPassword)
         {
-            switch (view)
+            // Handle checkout logic here (e.g., validate password, process payment, etc.)
+            // Clear the cart after successful checkout
+            _cartService.ClearCart();
+            return RedirectToAction("Index", "Home"); // Redirect to a confirmation page or home
+        }
+
+        [HttpPost] // Use HttpPost if this action is triggered by a form submission
+        public IActionResult AddToCart(int ticketTypeId, int quantity)
+        {
+            // Retrieve the TicketType from the database using ticketTypeId
+            var ticketType = _context.TicketTypes.Find(ticketTypeId); // Assuming TicketTypes is your DbSet
+
+            if (ticketType == null)
             {
-                case "Overview":
-                    return PartialView("_Overview");
-                case "MyEvents":
-                    return PartialView("_MyEvents");
-                case "MyTickets":
-                    return PartialView("_MyTickets");
-                case "EventHistory":
-                    return PartialView("_EventHistory");
-                case "PaymentMethods":
-                    return PartialView("_PaymentMethods");
-                default:
-                    return PartialView("_Overview");
+                // Handle the case where the ticket type is not found
+                ModelState.AddModelError("", "Ticket type not found.");
+                return RedirectToAction("Index"); // Redirect to an appropriate page, e.g., the ticket listing page
             }
+
+            // Add the ticket type to the cart
+            _cartService.AddTicket(ticketType, quantity);
+
+            // Redirect to the cart or another page
+            return RedirectToAction("Index"); // Redirect to the cart view or another appropriate action
         }
     }
 }

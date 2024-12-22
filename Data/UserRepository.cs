@@ -2,7 +2,7 @@
 {
     using Eventure_ASP.Models;
     using Microsoft.EntityFrameworkCore;
-    using System.Threading.Tasks;
+    using System.Linq;
 
     public class UserRepository
     {

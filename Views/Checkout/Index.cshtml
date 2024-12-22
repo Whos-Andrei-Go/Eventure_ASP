@@ -1,5 +1,58 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Eventure_ASP.Models.CheckoutViewModel
+
 @{
+    ViewData["Title"] = "Checkout";
 }
+
+<div class="container">
+    <h1 class="display-4 text-center">CHECKOUT</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Your Cart</h5>
+                </div>
+                <div class="card-body" id="cartItems">
+                    @if (Model.CartTickets != null && Model.CartTickets.Any())
+                    {
+                        foreach (var ticket in Model.CartTickets)
+                        {
+                            <div class="checkout-item">
+                                <h6>@ticket.TicketType.Name</h6>
+                                <p>Price: @ticket.TicketType.Price.ToString("C")</p>
+                                <p>Quantity: @ticket.Quantity</p>
+                                <p>Total: @(ticket.TicketType.Price * ticket.Quantity).ToString("C")</p>
+                                <hr />
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>Your cart is empty.</p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Checkout Details</h5>
+                </div>
+                <div class="card-body">
+                    <h6>Total Price: @Model.CartTotal.ToString("C")</h6>
+                    <form asp-action="CompleteCheckout" method="post">
+                        <div class="form-group">
+                            <label for="CurrentPassword">Current Password:</label>
+                            <input type="password" class="form-control" id="CurrentPassword" name="CurrentPassword" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="NewPassword">New Password (optional):</label>
+                            <input type="password" class="form-control" id="NewPassword" name="NewPassword" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Complete Checkout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

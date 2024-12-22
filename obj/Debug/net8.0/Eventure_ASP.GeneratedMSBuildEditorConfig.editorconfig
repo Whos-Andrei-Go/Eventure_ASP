@@ -44,20 +44,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/andre/OneDrive/Documents/USC/2nd Year/2103/Eventure_ASP/Views/Events/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRzXENyZWF0ZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/andre/OneDrive/Documents/USC/2nd Year/2103/Eventure_ASP/Views/Events/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/andre/OneDrive/Documents/USC/2nd Year/2103/Eventure_ASP/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+[C:/Users/andre/OneDrive/Documents/USC/2nd Year/2103/Eventure_ASP/Views/Event/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/andre/OneDrive/Documents/USC/2nd Year/2103/Eventure_ASP/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+[C:/Users/andre/OneDrive/Documents/USC/2nd Year/2103/Eventure_ASP/Views/Event/OrganizerView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcT3JnYW5pemVyVmlldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/andre/OneDrive/Documents/USC/2nd Year/2103/Eventure_ASP/Views/Event/UserView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcVXNlclZpZXcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/andre/OneDrive/Documents/USC/2nd Year/2103/Eventure_ASP/Views/Profile/Index.cshtml]
