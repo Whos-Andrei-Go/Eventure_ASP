@@ -5,70 +5,156 @@
     Layout = "_AdminLayout"; // Use your admin layout
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="~/css/dashboard.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-</head>
-<body>
-    <div class="container">
-        <h1 class="header">MANAGE USERS</h1>
-        <div class="table-responsive">
-            <table id="usersTable" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Role</th>
-                        <th>Date Created</th>
-                        <th>Date Updated</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model != null && Model.Any())
+<link rel="stylesheet" href="~/css/users.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+<div class="container">
+    <h1 class="header">MANAGE USERS</h1>
+    <div class="table-responsive">
+        <table id="usersTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Role</th>
+                    <th>Date Created</th>
+                    <th>Date Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var user in Model)
                     {
-                        foreach (var user in Model)
-                        {
-                            <tr data-user-id="@user.Id">
-                                <td>@user.Id</td>
-                                <td>@user.Username</td>
-                                <td>@user.Email</td>
-                                <td>@user.FirstName</td>
-                                <td>@user.LastName</td>
-                                <td>@user.Role</td>
-                                <td>@user.DateCreated?.ToString("yyyy-MM-dd")</td>
-                                <td>@user.DateUpdated?.ToString("yyyy-MM-dd")</td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="8" class="text-center">No users found.</td>
+                        <tr onclick="openEditModal(this)" data-user-id="@user.Id"
+                            data-username="@user.Username"
+                            data-email="@user.Email"
+                            data-firstname="@user.FirstName"
+                            data-lastname="@user.LastName"
+                            data-role="@user.Role">
+                            <td>@user.Id</td>
+                            <td>@user.Username</td>
+                            <td>@user.Email</td>
+                            <td>@user.FirstName</td>
+                            <td>@user.LastName</td>
+                            <td>@user.Role</td>
+                            <td>@user.DateCreated?.ToString("yyyy-MM-dd")</td>
+                            <td>@user.DateUpdated?.ToString("yyyy-MM-dd")</td>
                         </tr>
                     }
-                </tbody>
-            </table>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center">No users found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Edit User Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm">
+                    <input type="hidden" id="userId" name="userId" />
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <input type=" text" class="form-control" id="role" name="role" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
         </div>
     </div>
+</div>
 
+@section Scripts {
     <script>
         $(document).ready(function () {
-            $('#usersTable').DataTable();
+            $('#editUserForm').on('submit', function (e) {
+                e.preventDefault();
 
-            $('#usersTable tbody').on('click', 'tr', function () {
-                var userId = $(this).data('user-id');
-                if (userId) {
-                    window.location.href = '@Url.Action("EditUser ", "Users")/' + userId;
-                }
+                var userId = $('#userId').val();
+                var username = $('#username').val();
+                var email = $('#email').val();
+                var firstName = $('#firstName').val();
+                var lastName = $('#lastName').val();
+                var role = $('#role').val();
+
+                $.ajax({
+                    url: '@Url.Action("UpdateUser", "Users")', // Ensure this URL is correct
+                    type: 'POST',
+                    data: {
+                        Id: userId,
+                        Username: username,
+                        Email: email,
+                        FirstName: firstName,
+                        LastName: lastName,
+                        Role: role
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message); // Show error message
+                            $('#editUserModal').modal('hide');
+                            location.reload(); // Reload the page to see changes
+                        } else {
+                            alert(response.message); // Show error message
+                        }
+                    },
+                    error: function (error) {
+                        alert('Error updating user details.');
+                    }
+                });
             });
         });
+
+        function openEditModal(row) {
+            var userId = $(row).data('user-id');
+            var username = $(row).data('username');
+            var email = $(row).data('email');
+            var firstName = $(row).data('firstname');
+            var lastName = $(row).data('lastname');
+            var role = $(row).data('role');
+
+            // Populate the modal fields
+            $('#userId').val(userId);
+            $('#username').val(username);
+            $('#email').val(email);
+            $('#firstName').val(firstName);
+            $('#lastName').val(lastName);
+            $('#role').val(role);
+
+            // Show the modal
+            $('#editUserModal').modal('show');
+        }
     </script>
-</body>
-</html>
+}

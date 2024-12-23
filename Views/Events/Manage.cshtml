@@ -5,68 +5,148 @@
     Layout = "_AdminLayout";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="~/css/dashboard.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-</head>
-<body>
-    <div class="container">
-        <h1 class="header">MANAGE EVENTS</h1>
-        <div class="table-responsive">
-            <table id="eventsTable" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Event ID</th>
-                        <th>Creator ID</th>
-                        <th>Event Name</th>
-                        <th>Location</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Total Tickets Sold</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model != null && Model.Any())
+<link rel="stylesheet" href="~/css/events.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+<div class="container">
+    <h1 class="header">MANAGE EVENTS</h1>
+    <div class="table-responsive">
+        <table id="eventsTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Event ID</th>
+                    <th>Creator ID</th>
+                    <th>Event Name</th>
+                    <th>Location</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Total Tickets Sold</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var eventItem in Model)
                     {
-                        foreach (var eventItem in Model)
-                        {
-                            <tr data-event-id="@eventItem.Id">
-                                <td>@eventItem.Id</td>
-                                <td>@eventItem.CreatorId</td>
-                                <td>@eventItem.Name</td>
-                                <td>@eventItem.Location</td>
-                                <td>@eventItem.StartTime?.ToString("yyyy-MM-dd HH:mm")</td>
-                                <td>@eventItem.EndTime?.ToString("yyyy-MM-dd HH:mm")</td>
-                                <td>@eventItem.TotalTicketsSold</td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="7" class="text-center">No events found.</td>
+                        <tr onclick="openEditModal(this)" data-event-id="@eventItem.Id"
+                            data-event-name="@eventItem.Name"
+                            data-event-location="@eventItem.Location"
+                            data-event-starttime="@eventItem.StartTime?.ToString("yyyy-MM-ddTHH:mm")"
+                            data-event-endtime="@eventItem.EndTime?.ToString("yyyy-MM-ddTHH:mm")"
+                            data-event-description="@eventItem.Description">
+                            <!-- Add description data attribute -->
+                            <td>@eventItem.Id</td>
+                            <td>@eventItem.CreatorId</td>
+                            <td>@eventItem.Name</td>
+                            <td>@eventItem.Location</td>
+                            <td>@eventItem.StartTime?.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@eventItem.EndTime?.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@eventItem.TotalTicketsSold</td>
                         </tr>
                     }
-                </tbody>
-            </table>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="text-center">No events found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Edit Event Modal -->
+<div class="modal fade" id="editEventModal" tabindex="-1" aria-labelledby="editEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editEventModalLabel">Edit Event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editEventForm">
+                    <input type="hidden" id="eventId" name="eventId" />
+                    <div class="mb-3">
+                        <label for="eventName" class="form-label">Event Name</label>
+                        <input type="text" class="form-control" id="eventName" name="eventName" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventLocation" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="eventLocation" name="eventLocation" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="eventDescription" name="eventDescription" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventStartTime" class="form-label">Start Time</label>
+                        <input type="datetime-local" class="form-control" id="eventStartTime" name="eventStartTime" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventEndTime" class="form-label">End Time</label>
+                        <input type="datetime-local" class="form-control " id="eventEndTime" name="eventEndTime" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
         </div>
     </div>
+</div>
 
+@section Scripts {
     <script>
-        $(document).ready(function () {
-            $('#eventsTable').DataTable();
+        function openEditModal(row) {
+            var eventId = $(row).data('event-id');
 
-            $('#eventsTable tbody').on('click', 'tr', function () {
-                var eventId = $(this).data('event-id');
-                if (eventId) {
-                    window.location.href = '@Url.Action("EditEvent", "Events")/' + eventId;
-                }
+            $('#eventId').val(eventId);
+            $('#eventName').val($(row).data('event-name'));
+            $('#eventLocation').val($(row).data('event-location'));
+            $('#eventDescription').val($(row).data('event-description')); // Populate description
+            $('#eventStartTime').val($(row).data('event-starttime'));
+            $('#eventEndTime').val($(row).data('event-endtime'));
+
+            // Show the modal
+            $('#editEventModal').modal('show');
+        }
+
+        $(document).ready(function () {
+            $('#editEventForm').on('submit', function (e) {
+                e.preventDefault();
+                var eventId = $('#eventId').val();
+                var eventName = $('#eventName').val();
+                var eventLocation = $('#eventLocation').val();
+                var eventDescription = $('#eventDescription').val(); // Get description
+                var eventStartTime = $('#eventStartTime').val();
+                var eventEndTime = $('#eventEndTime').val();
+
+                $.ajax({
+                    url: '@Url.Action("UpdateEvent", "Events")', // Ensure this URL is correct
+                    type: 'POST',
+                    data: {
+                        Id: eventId,
+                        Name: eventName,
+                        Location: eventLocation,
+                        Description: eventDescription, // Send description
+                        StartTime: eventStartTime,
+                        EndTime: eventEndTime
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message); // Show success message
+                            $('#editEventModal').modal('hide');
+                            location.reload(); // Reload the page to see changes
+                        } else {
+                            alert(response.message); // Show error message
+                        }
+                    },
+                    error: function (error) {
+                        alert('Error updating event details.');
+                    }
+                });
             });
         });
     </script>
-</body>
-</html>
+}

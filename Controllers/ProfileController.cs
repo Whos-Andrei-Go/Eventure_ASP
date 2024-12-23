@@ -104,6 +104,7 @@ namespace Eventure_ASP.Controllers
                 user.LastName = model.LastName;
                 user.Username = model.Username;
                 user.Email = model.Email;
+                user.DateUpdated = DateTime.Now;
 
                 if (!string.IsNullOrEmpty(model.CurrentPassword))
                 {

@@ -24,7 +24,7 @@
                     var ticketType = ticket.TicketType; // Assuming TicketType is a navigation property
                     var eventDetails = Model.Events.FirstOrDefault(e => e.Id == ticketType?.EventId); // Get the event details
 
-                    <tr class="ticket-row"
+                    <tr class="ticket-row" onclick="openTicketModal(this)"
                         data-ticket-id="@ticket.Id"
                         data-ticket-type="@ticketType?.Name"
                         data-ticket-price="@ticketType?.Price"
@@ -72,44 +72,37 @@
     </div>
 </div>
 
-@section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            // Handle row click
-            $('.ticket-row').on('click', function () {
-                console.log("Row clicked:", $(this).data('ticket-id'));
+<script>
+    function openTicketModal(row) {
+        console.log("Row clicked:", $(row).data('ticket-id'));
 
-                // Get data attributes from the clicked row
-                var ticketId = $(this).data('ticket-id');
-                var ticketType = $(this).data('ticket-type');
-                var ticketPrice = $(this).data('ticket-price');
-                var eventName = $(this).data('event-name');
-                var status = $(this).data('status');
-                var qrCode = $(this).data('qr-code');
+        // Get data attributes from the clicked row
+        var ticketId = $(row).data('ticket-id');
+        var ticketType = $(row).data('ticket-type');
+        var ticketPrice = $(row).data('ticket-price');
+        var eventName = $(row).data('event-name');
+        var status = $(row).data('status');
+        var qrCode = $(row).data('qr-code');
 
-                // Populate modal with data
-                $('#modalTicketId').text(ticketId);
-                $('#modalTicketType').text(ticketType);
-                $('#modalTicketPrice').text('₱' + parseFloat(ticketPrice).toFixed(2));
-                $('#modalEventName').text(eventName);
-                $('#modalStatus').text(status);
+        // Populate modal with data
+        $('#modalTicketId').text(ticketId);
+        $('#modalTicketType').text(ticketType);
+        $('#modalTicketPrice').text('₱' + parseFloat(ticketPrice).toFixed(2));
+        $('#modalEventName').text(eventName);
+        $('#modalStatus').text(status);
 
-                // Check if QR code is available
-                if (qrCode) {
-                    $('#modalQrCode').attr('src ', qrCode);
-                    $('#qrCodeContainer').show();
-                } else {
-                    $('#qrCodeContainer').hide();
-                }
+        // Check if QR code is available
+        if (qrCode) {
+            $('#modalQrCode').attr('src', qrCode); // Remove the space after 'src'
+            $('#qrCodeContainer').show();
+        } else {
+            $('#qrCodeContainer').hide();
+        }
 
-                // Show the modal
-                var modal = new bootstrap.Modal(document.getElementById('ticketDetailsModal'), {
-                    keyboard: false
-                });
-                modal.show();
-            });
+        // Show the modal
+        var modal = new bootstrap.Modal(document.getElementById('ticketDetailsModal'), {
+            keyboard: false
         });
-    </script>
-}
+        modal.show();
+    }
+</script>

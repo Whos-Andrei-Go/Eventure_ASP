@@ -71,7 +71,7 @@ namespace Eventure_ASP.Services
                 .ToList();
         }
 
-        public void UpdateEvent(Event eventItem)
+        public bool UpdateEvent(Event eventItem)
         {
             var existingEvent = _context.Events.Find(eventItem.Id);
             if (existingEvent != null)
@@ -83,7 +83,10 @@ namespace Eventure_ASP.Services
                 existingEvent.EndTime = eventItem.EndTime;
 
                 _context.SaveChanges();
+                return true; // Return true if the update was successful
             }
+
+            return false; // Return false if the event was not found
         }
     }
 }

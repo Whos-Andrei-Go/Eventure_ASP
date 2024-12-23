@@ -74,13 +74,16 @@ namespace Eventure_ASP.Controllers
         [HttpPost]
         public IActionResult UpdateEvent(Event eventItem)
         {
-            if (ModelState.IsValid)
-            {
-                _eventService.UpdateEvent(eventItem); // Use the EventService to update the event
-                return RedirectToAction("Manage");
-            }
+            bool updateSuccessful = _eventService.UpdateEvent(eventItem); // Call the updated method
 
-            return View(eventItem);
+            if (updateSuccessful)
+            {
+                return Json(new { success = true, message = "Event updated successfully." });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Failed to update event. Event not found." });
+            }
         }
     }
 }

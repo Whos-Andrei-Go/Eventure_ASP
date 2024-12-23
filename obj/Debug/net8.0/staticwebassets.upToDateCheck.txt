@@ -6,6 +6,7 @@ wwwroot\css\login.css
 wwwroot\css\profile.css
 wwwroot\css\register.css
 wwwroot\css\site.css
+wwwroot\css\users.css
 wwwroot\favicon.ico
 wwwroot\fonts\RifficFree-Bold.ttf
 wwwroot\images\logo.png
