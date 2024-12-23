@@ -1,0 +1,72 @@
+﻿@model List<Eventure_ASP.Models.ManageEventsViewModel>
+
+@{
+    ViewData["Title"] = "Manage Events";
+    Layout = "_AdminLayout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/dashboard.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">MANAGE EVENTS</h1>
+        <div class="table-responsive">
+            <table id="eventsTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Event ID</th>
+                        <th>Creator ID</th>
+                        <th>Event Name</th>
+                        <th>Location</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Total Tickets Sold</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var eventItem in Model)
+                        {
+                            <tr data-event-id="@eventItem.Id">
+                                <td>@eventItem.Id</td>
+                                <td>@eventItem.CreatorId</td>
+                                <td>@eventItem.Name</td>
+                                <td>@eventItem.Location</td>
+                                <td>@eventItem.StartTime?.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td>@eventItem.EndTime?.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td>@eventItem.TotalTicketsSold</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center">No events found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#eventsTable').DataTable();
+
+            $('#eventsTable tbody').on('click', 'tr', function () {
+                var eventId = $(this).data('event-id');
+                if (eventId) {
+                    window.location.href = '@Url.Action("EditEvent", "Events")/' + eventId;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

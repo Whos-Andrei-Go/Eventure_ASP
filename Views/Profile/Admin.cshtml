@@ -1,7 +1,7 @@
 ﻿@model Eventure_ASP.Models.ProfileViewModel
 
 @{
-    ViewData["Title"] = "Eventure - Profile";
+    ViewData["Title"] = "Profile";
 }
 
 <!DOCTYPE html>
@@ -19,28 +19,16 @@
             <div class="col-md-3 sidebar">
                 <h4>Navigation</h4>
                 <button class="btn btn-sidebar" onclick="loadView('Overview')">Overview</button>
-                <button class="btn btn-sidebar" onclick="loadView('MyEvents')">My Events</button>
-                <button class="btn btn-sidebar" onclick="loadView('MyTickets')">My Tickets</button>
-                <button class="btn btn-sidebar" onclick="loadView('EventHistory')">Event History</button>
-                <button class="btn btn-sidebar" onclick="loadView('PaymentMethods')">Payment Methods</button>
             </div>
             <div class="col-md-9">
                 <div id="mainContent" class="scrollable">
                     <div id="contentArea">
-                        @if (TempData["PartialView"] != null)
-                        {
-                            @Html.Partial(TempData["PartialView"].ToString(), Model)
-                            TempData["PartialView"] = null; // Clear TempData after using it
-                        }
-                        else{
-                            @Html.Partial("_Overview", Model)  @* Pass the model to the partial view *@
-                        }
+                        @Html.Partial("_Overview", Model)  @* Pass the model to the partial view *@
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 
     <script>
         function loadView(viewName) {

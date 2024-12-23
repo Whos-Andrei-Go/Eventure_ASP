@@ -36,7 +36,13 @@ namespace Eventure_ASP.Controllers
                 var user = ValidateUser(model.Username, model.Password);
                 if (user != null)
                 {
-                    _session.SetCurrentUser(user); // Set the current user in session
+                    _session.SetCurrentUser(user);
+
+                    if (user.Role == "Admin")
+                    {
+                        return RedirectToAction("Admin", "Dashboard");
+                    }
+
                     return RedirectToAction("Index", "Dashboard");
                 }
                 else

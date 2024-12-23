@@ -1,0 +1,55 @@
+﻿@model Eventure_ASP.Models.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "_AdminLayout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/dashboard.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="header-container">
+            <h1 class="header">DASHBOARD</h1>
+            <div class="clock" id="lblClock">@DateTime.Now.ToString("HH:mm:ss")</div>
+        </div>
+
+        <div class="statistics-container">
+            <div class="statistic-card">
+                <h3>Total Tickets Sold</h3>
+                <p>@Model.TotalTicketsSold</p>
+            </div>
+            <div class="statistic-card">
+                <h3>Total Revenue</h3>
+                <p>PHP @Model.TotalRevenue</p>
+            </div>
+            <div class="statistic-card">
+                <h3>Upcoming Events</h3>
+                <p>@Model.UpcomingEventsCount</p>
+            </div>
+            <div class="statistic-card">
+                <h3>Top Selling Event</h3>
+                <p>@Model.TopSellingEventName</p>
+            </div>
+            <div class="statistic-card">
+                <h3>Total Registered Users</h3>
+                <p>@Model.TotalRegisteredUsers</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateClock() {
+            var now = new Date();
+            document.getElementById('lblClock').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>

@@ -47,7 +47,6 @@ namespace Eventure_ASP.Controllers
         }
 
         [HttpPost]
-        [HttpPost]
         public IActionResult CompleteCheckout(EnterPaymentMethodViewModel model)
         {
             var currentUserId = _session.GetCurrentUser().Id; // Get the current user's ID from the session

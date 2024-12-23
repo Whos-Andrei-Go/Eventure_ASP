@@ -1,5 +1,6 @@
 ﻿body {
     background-color: #f0f0f0; /* Light gray background */
+    overflow: hidden; /* Prevent scrolling */
 }
 
 .container-fluid .bg-purple {

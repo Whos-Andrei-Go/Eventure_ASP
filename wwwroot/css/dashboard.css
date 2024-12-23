@@ -77,3 +77,22 @@
     font-family: 'Riffic Free Medium', sans-serif;
     margin-bottom: 20px;
 }
+
+
+.statistics-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.statistic-card {
+    background-color: #800080; /* Purple background */
+    border-radius: 10px; /* Rounded corners */
+    padding: 15px; /* Inner padding */
+    margin: 10px; /* Space between cards */
+    width: calc(33.33% - 20px); /* Responsive width for three cards per row */
+    color: #ffffff; /* White text color */
+    transition: transform 0.2s; /* Smooth transition for hover effect */
+    cursor: pointer; /* Pointer cursor on hover */
+    text-decoration: none;
+}

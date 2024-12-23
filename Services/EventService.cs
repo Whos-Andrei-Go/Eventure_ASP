@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Eventure_ASP.Data;
 using Eventure_ASP.Models;
 
@@ -6,7 +7,7 @@ namespace Eventure_ASP.Services
 {
     public class EventService
     {
-        private readonly EtsDbContext _context; // Your DbContext
+        private readonly EtsDbContext _context;
 
         public EventService(EtsDbContext context)
         {
@@ -32,10 +33,57 @@ namespace Eventure_ASP.Services
         public decimal GetEventRevenue(int eventId)
         {
             var revenue = _context.Tickets
-            .Where(ticket => ticket.TicketType.EventId == eventId) // Filter tickets by EventId
-            .Sum(ticket => ticket.TicketType.Price); // Sum the total price based on quantity
-
+                .Where(ticket => ticket.TicketType.EventId == eventId)
+                .Sum(ticket => ticket.TicketType.Price);
             return revenue;
+        }
+
+        public int GetUpcomingEventsCount()
+        {
+            return _context.Events.Count(e => e.StartTime > DateTime.Now);
+        }
+
+        public string GetTopSellingEventName()
+        {
+            var topEvent = _context.Tickets
+                .GroupBy(t => t.TicketType.EventId)
+                .Select(g => new
+                {
+                    EventId = g.Key,
+                    TotalSold = g.Count() 
+                })
+                .OrderByDescending(x => x.TotalSold)
+                .FirstOrDefault();
+
+            if (topEvent != null)
+            {
+                var eventEntity = _context.Events.Find(topEvent.EventId);
+                return eventEntity?.Name ?? "N/A";
+            }
+
+            return "N/A";
+        }
+
+        public List<Event> GetUpcomingEvents()
+        {
+            return _context.Events
+                .Where(e => e.StartTime > DateTime.Now)
+                .ToList();
+        }
+
+        public void UpdateEvent(Event eventItem)
+        {
+            var existingEvent = _context.Events.Find(eventItem.Id);
+            if (existingEvent != null)
+            {
+                existingEvent.Name = eventItem.Name;
+                existingEvent.Description = eventItem.Description;
+                existingEvent.Location = eventItem.Location;
+                existingEvent.StartTime = eventItem.StartTime;
+                existingEvent.EndTime = eventItem.EndTime;
+
+                _context.SaveChanges();
+            }
         }
     }
 }

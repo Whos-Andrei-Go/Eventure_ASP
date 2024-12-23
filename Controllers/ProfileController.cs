@@ -3,8 +3,8 @@ using Eventure_ASP.Models;
 using Eventure_ASP.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Eventure_ASP.Controllers
@@ -12,21 +12,20 @@ namespace Eventure_ASP.Controllers
     public class ProfileController : Controller
     {
         private readonly EtsDbContext _context;
-        private readonly Session _session; // Inject the Session utility
-        private readonly PasswordUtils _passwordUtils; // Inject the Password utility
+        private readonly Session _session;
+        private readonly PasswordUtils _passwordUtils;
 
         public ProfileController(EtsDbContext context, Session session, PasswordUtils passwordUtils)
         {
             _context = context;
-            _session = session; // Assign the injected session utility
-            _passwordUtils = passwordUtils; // Assign the injected password utility
+            _session = session;
+            _passwordUtils = passwordUtils;
         }
 
         private ProfileViewModel GetModel()
         {
             var currentDate = DateTime.Now;
-
-            var userId = _session.GetCurrentUser()?.Id;
+            var user = _session.GetCurrentUser();
 
             var model = new ProfileViewModel
             {
@@ -42,27 +41,20 @@ namespace Eventure_ASP.Controllers
                 NewPassword = string.Empty
             };
 
-            if (userId == null)
-            {
-                return model;
-            }
-
-            var user = _context.Users.Find(userId);
-
             if (user != null)
             {
-                model.FirstName = user.FirstName ?? String.Empty;
-                model.LastName = user.LastName ?? String.Empty;
-                model.Username = user.Username ?? String.Empty;
+                model.FirstName = user.FirstName ?? string.Empty;
+                model.LastName = user.LastName ?? string.Empty;
+                model.Username = user.Username ?? string.Empty;
                 model.Email = user.Email;
                 model.Events = _context.Events.ToList();
                 model.Tickets = _context.Tickets.Include(t => t.TicketType).ToList();
                 model.EventHistory = _context.Events
-                    .Include(e => e.Creator) // Include TicketType to access EventId
+                    .Include(e => e.Creator)
                     .Where(e => e.StartTime.HasValue && e.StartTime.Value < currentDate)
                     .ToList();
                 model.PaymentMethods = _context.PaymentMethods
-                    .Where(pm => pm.UserId == userId)
+                    .Where(pm => pm.UserId == user.Id)
                     .ToList();
             }
 
@@ -70,6 +62,12 @@ namespace Eventure_ASP.Controllers
         }
 
         public IActionResult Index()
+        {
+            var model = GetModel();
+            return View(model);
+        }
+
+        public IActionResult Admin()
         {
             return View(GetModel());
         }
@@ -98,60 +96,56 @@ namespace Eventure_ASP.Controllers
         [HttpPost]
         public IActionResult UpdateUser(ProfileViewModel model)
         {
-            var user = _session.GetCurrentUser(); // Get the user ID from the session
+            var user = _session.GetCurrentUser();
 
             if (user != null)
             {
-                // Update user details
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
                 user.Username = model.Username;
                 user.Email = model.Email;
 
-                // Check if the current password is provided
                 if (!string.IsNullOrEmpty(model.CurrentPassword))
                 {
-                    // Verify the current password
                     if (_passwordUtils.VerifyPassword(user.Password, model.CurrentPassword))
                     {
-                        // Update the password if a new one is provided
                         if (!string.IsNullOrEmpty(model.NewPassword))
                         {
-                            user.Password = _passwordUtils.HashPassword(model.NewPassword); // Hash the new password before saving
+                            user.Password = _passwordUtils.HashPassword(model.NewPassword);
                         }
                     }
                     else
                     {
                         ModelState.AddModelError("CurrentPassword", "The current password is incorrect.");
-                        return View("Index", GetModel()); // Return to the main profile view
+                        return View("Index", GetModel());
                     }
                 }
 
-                _context.SaveChanges(); // Save changes to the database
-                return View("Index", GetModel()); // Return to the main profile view
+                _context.SaveChanges();
+                return View("Index", GetModel());
             }
 
-            return View("Index", GetModel()); // Return to the main profile view if validation fails
+            return View("Index", GetModel());
         }
 
         public IActionResult DeleteAccount()
         {
-            var userId = _session.GetCurrentUser().Id; // Assuming you have a method to get the current user's ID
+            var userId = _session.GetCurrentUser().Id;
             var user = _context.Users.Find(userId);
             if (user != null)
             {
                 _context.Users.Remove(user);
                 _context.SaveChanges();
                 _session.Logout();
-                return RedirectToAction("Login", "Account"); // Redirect to login page
+                return RedirectToAction("Login", "Account");
             }
-            return NotFound(); // Handle user not found case
+            return NotFound();
         }
 
         public IActionResult Logout()
         {
-            _session.Logout(); // Clear session or perform logout logic
-            return RedirectToAction("Login", "Account"); // Redirect to login page
+            _session.Logout();
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpGet]
@@ -172,31 +166,71 @@ namespace Eventure_ASP.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdatePaymentMethod(ProfileViewModel model, int id)
+        public IActionResult AddPaymentMethod(string paymentType, string accountNumber, string expirationDate)
         {
-            var paymentMethod = model.PaymentMethods.FirstOrDefault(pm => pm.Id == id);
+            var userId = _session.GetCurrentUser().Id; // Get the current user's ID
+
+            // Create a new PaymentMethod object
+            var paymentMethod = new PaymentMethod
+            {
+                UserId = userId,
+                PaymentType = paymentType,
+                AccountNumber = accountNumber,
+                ExpirationDate = DateTime.TryParseExact(expirationDate, "MM/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime expDate) ? DateOnly.FromDateTime(expDate) : (DateOnly?)null,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+
+            // Add the payment method to the database
+            _context.PaymentMethods.Add(paymentMethod);
+            _context.SaveChanges();
+
+            // Optionally, return the updated list of payment methods or a success message
+            return Json(new { success = true, message = "Payment method added successfully." });
+        }
+
+        [HttpPost]
+        public IActionResult UpdatePaymentMethod(int selectedPaymentMethodId, ProfileViewModel model)
+        {
+            var paymentMethod = _context.PaymentMethods.Find(selectedPaymentMethodId);
             if (paymentMethod == null)
             {
                 return NotFound();
             }
 
-            paymentMethod.AccountNumber = model.PaymentMethods.FirstOrDefault(pm => pm.Id == id)?.AccountNumber ?? string.Empty;
-            paymentMethod.IsDefault = model.PaymentMethods.FirstOrDefault(pm => pm.Id == id)?.IsDefault ?? false;
-
-            var expirationDateStr = model.PaymentMethods.FirstOrDefault(pm => pm.Id == id)?.ExpirationDate;
-
-            if (expirationDateStr.HasValue)
+            // Check if the user is trying to set this payment method as default
+            if (model.IsDefault)
             {
-                // Convert DateOnly to string in "MM/yyyy" format
-                paymentMethod.ExpirationDate = expirationDateStr.Value; // Assign the DateOnly value directly
+                // Check if another payment method is already set as default
+                var existingDefault = _context.PaymentMethods
+                    .FirstOrDefault(pm => pm.UserId == paymentMethod.UserId && pm.IsDefault && pm.Id != selectedPaymentMethodId);
+
+                if (existingDefault != null)
+                {
+                    TempData["ErrorMessage"] = "Another payment method is already set as default. Please unset it before making this one default.";
+                    TempData["PartialView"] = "_PaymentMethods";
+                    return View("Index", GetModel());
+                }
+            }
+
+            // Proceed with the update
+            paymentMethod.AccountNumber = model.AccountNumber;
+            paymentMethod.IsDefault = model.IsDefault;
+
+            if (DateTime.TryParseExact(model.ExpirationDate, "MM/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime expirationDate))
+            {
+                // Convert DateTime to DateOnly before assigning
+                paymentMethod.ExpirationDate = DateOnly.FromDateTime(expirationDate);
             }
             else
             {
-                paymentMethod.ExpirationDate = null; // Clear if invalid
+                paymentMethod.ExpirationDate = null; // Handle invalid date
             }
 
             _context.SaveChanges();
-            return Json(new { success = true, message = "Payment method updated successfully." });
+
+            TempData["PartialView"] = "_PaymentMethods";
+            return View("Index", GetModel());
         }
 
         [HttpPost]
@@ -205,11 +239,12 @@ namespace Eventure_ASP.Controllers
             var paymentMethod = _context.PaymentMethods.Find(id);
             if (paymentMethod == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Payment method does not exist." });
             }
 
             _context.PaymentMethods.Remove(paymentMethod);
             _context.SaveChanges();
+
             return Json(new { success = true, message = "Payment method deleted successfully." });
         }
     }

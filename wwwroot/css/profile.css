@@ -14,7 +14,7 @@ body {
 }
 
 /* Headings */
-h1.display-4 {
+.header {
     font-family: 'Riffic Free Medium', sans-serif; /* Match the header font */
     font-size: 64px; /* Large header size */
     font-weight: normal; /* Normal weight */
@@ -54,12 +54,15 @@ input[type="password"] {
 .btn {
     background-color: #990099; /* Dark purple background */
     color: #ffffff; /* White text */
-    font-size: 24px; /* Match button text size */
+    font-size: 18px; /* Match button text size */
     padding: 10px 20px; /* Padding for buttons */
     border: none; /* Remove border */
     border-radius: 4px; /* Rounded corners */
     cursor: pointer; /* Pointer cursor on hover */
     transition: background-color 0.3s; /* Smooth transition */
+
+    font-family: Tahoma, sans-serif; /* Set font to Tahoma */
+    font-weight: bold; /* Make font bold */
 }
 
 .btn:hover {
@@ -142,21 +145,42 @@ input[type="password"] {
     width: 100%; /* Full width */
     padding: 10px; /* Padding for buttons */
     margin-bottom: 10px; /* Space between buttons */
-    background-color: #6f42c1; /* Purple background */
+    background-color: #990099; /* Original purple background */
     color: white; /* White text */
     border: none; /* Remove border */
     border-radius: 4px; /* Rounded corners */
     font-size: 18px; /* Font size for buttons */
+    font-family: Tahoma, sans-serif; /* Set font to Tahoma */
+    font-weight: bold; /* Make font bold */
     text-align: left; /* Align text to the left */
     transition: background-color 0.3s; /* Smooth transition */
 }
 
 .btn-sidebar:hover {
-    background-color: #5a32a1; /* Darker purple on hover */
+    background-color: #6A006A; /* Darker purple on hover */
+    color: white; /* Keep text color white on hover */
 }
 
 /* Scrollable Content */
 .scrollable {
     overflow-y: auto; /* Enable vertical scrolling */
     padding: 20px; /* Padding for main content */
+}
+
+.my-tickets {
+    padding: 20px;
+}
+
+.table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    text-align: left;
+    padding: 10px;
+}
+
+.table th {
+    background-color: #f2f2f2;
 }

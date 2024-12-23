@@ -52,6 +52,7 @@
                             <div class="form-group">
                                 <label for="paymentMethod">Method of Payment:</label>
                                 <select id="paymentMethod" name="paymentMethodId" class="form-control" required>
+                                    <option value="">Select a Payment Method</option> <!-- Default option -->
                                     @foreach (var method in Model.PaymentMethods)
                                     {
                                         <option value="@method.Id" data-accountnumber="@method.AccountNumber" data-expirationdate="@method.ExpirationDate?.ToString("MM/yyyy")">@method.PaymentType</option>

@@ -71,3 +71,17 @@
 .row {
     margin-bottom: 20px; /* Space between rows */
 }
+
+.table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    text-align: left;
+    padding: 10px;
+}
+
+.table th {
+    background-color: #f2f2f2;
+}

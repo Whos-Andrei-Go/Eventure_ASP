@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Eventure_ASP.Data;
 using Eventure_ASP.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Eventure_ASP.Services
 {
     public class TicketService
     {
-        private readonly EtsDbContext _context; // Your DbContext
+        private readonly EtsDbContext _context;
 
         public TicketService(EtsDbContext context)
         {
@@ -37,11 +39,19 @@ namespace Eventure_ASP.Services
 
         public int GetEventTicketsSold(int eventId)
         {
-            // Count the number of tickets sold for the event by checking the TicketType's EventId
-            var ticketsSold = _context.Tickets
-                .Count(ticket => ticket.TicketType.EventId == eventId); // Count tickets where EventId matches
+            return _context.Tickets.Count(ticket => ticket.TicketType.EventId == eventId);
+        }
 
-            return ticketsSold;
+        public int GetTotalTicketsSold()
+        {
+            return _context.Tickets.Count();
+        }
+
+        public decimal GetTotalRevenue()
+        {
+            return _context.Tickets
+                .Include(t => t.TicketType) // Ensure TicketType data is loaded
+                .Sum(t => t.TicketType.Price); // Sum the prices of all ticket types
         }
     }
 }
