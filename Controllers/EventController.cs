@@ -15,15 +15,13 @@ namespace Eventure_ASP.Controllers
     {
         private readonly EtsDbContext _context;
         private readonly Session _session;
-
         private readonly EventService _eventService;
         private readonly TicketService _ticketService;
 
-        public EventController(EtsDbContext context, Session session, EventService eventService, TicketService ticketService) // Inject the Session class
+        public EventController(EtsDbContext context, Session session, EventService eventService, TicketService ticketService)
         {
             _context = context;
             _session = session;
-
             _eventService = eventService;
             _ticketService = ticketService;
         }
@@ -42,7 +40,7 @@ namespace Eventure_ASP.Controllers
                 {
                     Name = model.EventName,
                     Location = model.EventLocation,
-                    Description = model.Description,
+                    Description = model.EventDescription,
                     StartTime = new DateTime(model.StartDate.Year, model.StartDate.Month, model.StartDate.Day, model.StartTime.Hours, model.StartTime.Minutes, 0),
                     EndTime = new DateTime(model.EndDate.Year, model.EndDate.Month, model.EndDate.Day, model.EndTime.Hours, model.EndTime.Minutes, 0),
                     CreatorId = _session.GetCurrentUser().Id
@@ -66,7 +64,7 @@ namespace Eventure_ASP.Controllers
 
                 _context.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Events");
             }
 
             return View(model);
@@ -78,46 +76,41 @@ namespace Eventure_ASP.Controllers
 
             if (eventDetails == null)
             {
-                return NotFound(); // Handle the case where the event is not found
+                return NotFound();
             }
 
-            // Get the current user's ID
             var currentUser = _session.GetCurrentUser();
             var currentUserId = currentUser?.Id ?? -1;
 
-            // Check if the current user is the creator of the event
             if (eventDetails.CreatorId == currentUserId)
-    {
-                return OrganizerView(eventId); // Return the organizer view
+            {
+                return OrganizerView(eventId);
             }
 
-            return UserView(eventId); // Return the user view
+            return UserView(eventId);
         }
 
         public IActionResult OrganizerView(int eventId)
         {
-            // Fetch the event from the database
             var eventDetails = _eventService.GetEventById(eventId);
 
             if (eventDetails == null)
             {
-                return NotFound(); // Handle the case where the event is not found
+                return NotFound();
             }
 
-            // Fetch ticket types associated with the event
             var ticketTypes = _ticketService.GetTicketTypesByEventId(eventId);
 
-            // Prepare the view model
             var model = new EventViewModel
             {
                 Event = eventDetails,
                 TicketTypes = ticketTypes,
                 TicketsSold = $"Tickets Sold: {_ticketService.GetEventTicketsSold(eventId)}",
                 Revenue = $"Revenue: {_eventService.GetEventRevenue(eventId)}",
-                StartDate = eventDetails.StartTime?.Date ?? DateTime.Now.Date, // Set to current date if null
-                StartTime = eventDetails.StartTime ?? DateTime.Now, // Set to current time if null
-                EndDate = eventDetails.EndTime?.Date ?? DateTime.Now.Date, // Set to current date if null
-                EndTime = eventDetails.EndTime ?? DateTime.Now // Set to current time if null
+                StartDate = eventDetails.StartTime?.Date ?? DateTime.Now.Date,
+                StartTime = eventDetails.StartTime ?? DateTime.Now,
+                EndDate = eventDetails.EndTime?.Date ?? DateTime.Now.Date,
+                EndTime = eventDetails.EndTime ?? DateTime.Now
             };
 
             return View("OrganizerView", model);
@@ -129,7 +122,7 @@ namespace Eventure_ASP.Controllers
 
             if (eventDetails == null)
             {
-                return NotFound(); // Handle the case where the event is not found
+                return NotFound();
             }
 
             var ticketTypes = _ticketService.GetTicketTypesByEventId(eventId);
@@ -140,21 +133,57 @@ namespace Eventure_ASP.Controllers
                 TicketTypes = ticketTypes,
                 TicketsSold = "",
                 Revenue = "",
-                StartDate = eventDetails.StartTime?.Date ?? DateTime.Now.Date, // Set to current date if null
-                StartTime = eventDetails.StartTime ?? DateTime.Now, // Set to current time if null
-                EndDate = eventDetails.EndTime?.Date ?? DateTime.Now.Date, // Set to current date if null
-                EndTime = eventDetails.EndTime ?? DateTime.Now // Set to current time if null
+                StartDate = eventDetails.StartTime?.Date ?? DateTime.Now.Date,
+                StartTime = eventDetails.StartTime ?? DateTime.Now,
+                EndDate = eventDetails.EndTime?.Date ?? DateTime.Now.Date,
+                EndTime = eventDetails.EndTime ?? DateTime.Now
             };
 
             return View("UserView", model);
         }
 
         [HttpPost]
-        public JsonResult SaveEvent(Event eventData)
+        public IActionResult Save(CreateEventViewModel model)
         {
-            // Logic to save the event data
-            bool success = _eventService.SaveEvent(eventData);
-            return Json(new { success });
+            if (ModelState.IsValid)
+            {
+                Event eventEntity;
+
+                if (model.EventId == 0)
+                {
+                    eventEntity = new Event
+                    {
+                        Name = model.EventName,
+                        Location = model.EventLocation,
+                        Description = model.EventDescription,
+                        StartTime = new DateTime(model.StartDate.Year, model.StartDate.Month, model.StartDate.Day, model.StartTime.Hours, model.StartTime.Minutes, 0),
+                        EndTime = new DateTime(model.EndDate.Year, model.EndDate.Month, model.EndDate.Day, model.EndTime.Hours, model.EndTime.Minutes, 0),
+                        CreatorId = _session.GetCurrentUser().Id
+                    };
+
+                    _context.Events.Add(eventEntity);
+                }
+                else
+                {
+                    eventEntity = _context.Events.Find(model.EventId);
+                    if (eventEntity == null)
+                    {
+                        return NotFound();
+                    }
+
+                    eventEntity.Name = model.EventName;
+                    eventEntity.Location = model.EventLocation;
+                    eventEntity.Description = model.EventDescription;
+                    eventEntity.StartTime = new DateTime(model.StartDate.Year, model.StartDate.Month, model.StartDate.Day, model.StartTime.Hours, model.StartTime.Minutes, 0);
+                    eventEntity.EndTime = new DateTime(model.EndDate.Year, model.EndDate.Month, model.EndDate.Day, model.EndTime.Hours, model.EndTime.Minutes, 0);
+                }
+
+                _context.SaveChanges();
+
+                return RedirectToAction("OrganizerView", new { eventId = eventEntity.Id });
+            }
+
+            return View(model);
         }
     }
 }

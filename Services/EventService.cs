@@ -18,19 +18,6 @@ namespace Eventure_ASP.Services
             return _context.Events.Find(eventId);
         }
 
-        public bool SaveEvent(Event eventData)
-        {
-            if (eventData.Id == 0) // New event
-            {
-                _context.Events.Add(eventData);
-            }
-            else // Update existing event
-            {
-                _context.Events.Update(eventData);
-            }
-            return _context.SaveChanges() > 0; // Returns true if changes were saved
-        }
-
         public bool DeleteEvent(int eventId)
         {
             var eventToDelete = _context.Events.Find(eventId);

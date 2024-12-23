@@ -10,12 +10,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Eventure</title>
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/events.css" />
+    <link rel="stylesheet" href="~/css/event.css" />
 </head>
 <body>
     <div class="container">
-        <h1 class="header">CREATE EVENT</h1>
+        <div class="header-container">
+            <h1 class="header">CREATE EVENT</h1>
+            <a asp-controller="Events" asp-action="Index" class="btn btn-back">Back to Events</a>
+        </div>
 
         <form asp-action="Create" method="post">
             <div class="row">
@@ -30,25 +32,7 @@
                     </div>
                     <div class="form-group">
                         <label for="Description">Event Description:</label>
-                        <textarea class="form-control" id="Description" name="Description" rows="5">@Model.Description</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="StartDate">Event Start Date:</label>
-                        <input type="date" class="form-control" id="StartDate" name="StartDate" value="@Model.StartDate.ToString("yyyy-MM-dd")" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="StartTime">Event Start Time:</label>
-                        <input type="time" class="form-control" id="StartTime" name="StartTime" value="@Model.StartTime.ToString(@"hh\:mm")" required />
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="EndDate">Event End Date:</label>
-                        <input type="date" class="form-control" id="EndDate" name="EndDate" value="@Model.EndDate.ToString("yyyy-MM-dd")" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="EndTime">Event End Time:</label>
-                        <input type="time" class=" form-control" id="EndTime" name="EndTime" value="@Model.EndTime.ToString(@"hh\:mm")" required />
+                        <textarea class="form-control" id="Description" name="EventDescription" rows="5">@Model.EventDescription</textarea>
                     </div>
                     <div class="form-group">
                         <label>Event Ticket Types:</label>
@@ -63,10 +47,29 @@
                         <button type="button" class="btn btn-secondary" id="addTicketTypeButton">+ Add Ticket Type</button>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="StartDate">Event Start Date:</label>
+                        <input type="date" class="form-control" id="StartDate" name="StartDate" value="@Model.StartDate.ToString("yyyy-MM-dd")" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="StartTime">Event Start Time:</label>
+                        <input type="time" class="form-control" id="StartTime" name="StartTime" value="@Model.StartTime.ToString(@"hh\:mm")" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="EndDate">Event End Date:</label>
+                        <input type="date" class="form-control" id="EndDate" name="EndDate" value="@Model.EndDate.ToString("yyyy-MM-dd")" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="EndTime">Event End Time:</label>
+                        <input type="time" class="form-control" id="EndTime" name="EndTime" value="@Model.EndTime.ToString(@"hh\:mm")" required />
+                    </div>
+                </div>
             </div>
 
-            <button type="submit" class="btn-create-event">Submit</button>
-            <a asp-action="Index" class="btn btn-secondary">Back to Events</a>
+            <div class="btn-container">
+                <button type="submit" class="btn-create-event">Submit</button>
+            </div>
         </form>
     </div>
 

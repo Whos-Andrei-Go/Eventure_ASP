@@ -19,7 +19,10 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="header">@Model.Event.Name</h1>
+        <div class="header-container">
+            <h1 class="header">@Model.Event.Name</h1>
+            <button class="btn-back" id="btnBack" onclick="window.history.back();">Back</button>
+        </div>
 
         <div class="form-group">
             <label>Event Location:</label>
@@ -66,7 +69,6 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Add to Cart</button>
-            <a href="@Url.Action("Index", "Events")" class="btn btn-secondary">Back to Events</a>
 
             <div class="summary">
                 <p>Quantity Left: <span>@Model.TicketTypes.FirstOrDefault()?.Quantity</span></p>

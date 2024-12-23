@@ -1,4 +1,35 @@
-﻿.container {
+﻿.btn-primary {
+    background-color: #990099; /* Similar to Color(153, 0, 153) */
+    color: white;
+    font-size: 24px; /* Match the button font size */
+    font-family: 'Tahoma', sans-serif; /* Set font to Tahoma */
+    font-weight: bold; /* Make the font bold */
+    padding: 10px 20px; /* Padding for buttons */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px; /* Space below the button */
+    margin-left: 20px;
+}
+
+
+.btn-back:hover {
+    background-color: #770077; /* Darker shade on hover */
+}
+
+.btn-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.btn-save-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.container {
     padding: 20px;
 }
 
@@ -36,12 +67,18 @@
     transform: scale(1.05); /* Slightly enlarge card on hover */
 }
 
+.event-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow-x: auto; /* Allow horizontal scrolling */
+}
+
 .event-name {
     font-size: 24px; /* Font size for event name */
     font-weight: bold; /* Bold font for event name */
     margin-bottom: 10px; /* Space below the title */
 }
-
 
 .event-location,
 .event-start-date,
@@ -50,30 +87,30 @@
     margin: 5px 0; /* Space between paragraphs */
 }
 
-
-.btn-create-event {
-    background-color: #990099; /* Similar to Color(153, 0, 153) */
-    color: white;
-    font-size: 24px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.btn-create-event:hover {
-    background-color: #770077; /* Darker shade on hover */
-}
-
-.event-container {
+.form-row {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    overflow-x: auto; /* Allow horizontal scrolling */
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
-.clock {
-    font-size: 48px;
-    font-family: 'Riffic Free Medium', sans-serif;
-    margin-bottom: 20px;
+.form-column {
+    flex: 1;
+    margin-right: 20px; /* Add some space between columns */
+}
+
+.form-column:last-child {
+    margin-right: 0; /* Remove margin from the last column */
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.ticket-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.ticket-list li {
+    margin-bottom: 10px;
 }

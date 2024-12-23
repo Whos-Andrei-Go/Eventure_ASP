@@ -1,58 +1,56 @@
 ﻿@model Eventure_ASP.Models.EventViewModel
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>Eventure - Organizer Event</title>
+@{
+    ViewData["Title"] = @Model.Event.Name;
+}
+
+<div class="container">
     <link rel="stylesheet" href="~/css/event.css" />
-   
-</head>
-<body>
-    <div class="container">
+
+    <div class="header-container">
         <h1 class="header">@Model.Event.Name</h1>
+        <button class="btn btn-primary" id="btnBack" onclick="window.history.back();">Back</button>
+    </div>
 
-        <div class="form-row">
-            <div class="form-column">
-                <div class="form-group">
-                    <label for="eventName">Event Name:</label>
-                    <input type="text" id="eventName" class="form-control" value="@Model.Event.Name" />
+    <form asp-action="Save" method="post">
+        <input type="hidden" name="EventId" value="@Model.Event.Id" />
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="eventName" class="form-label">Event Name:</label>
+                    <input type="text" id="eventName" name="EventName" class="form-control" value="@Model.Event.Name" required />
                 </div>
 
-                <div class="form-group">
-                    <label for="eventLocation">Event Location:</label>
-                    <input type="text" id="eventLocation" class="form-control" value="@Model.Event.Location" />
+                <div class="mb-3">
+                    <label for="eventLocation" class="form-label">Event Location:</label>
+                    <input type="text" id="eventLocation" name="EventLocation" class="form-control" value="@Model.Event.Location" required />
                 </div>
 
-                <div class="form-group">
-                    <label for="eventDescription">Event Description:</label>
-                    <textarea id="eventDescription" class="form-control">@Model.Event.Description</textarea>
+                <div class="mb-3">
+                    <label for="eventDescription" class="form-label">Event Description:</label>
+                    <textarea id="eventDescription" name="EventDescription" class="form-control" required>@Model.Event.Description</textarea>
                 </div>
             </div>
 
-            <div class="form-column">
-                <div class="form-group">
-                    <label for="startDate">Event Start Date:</label>
-                    <input type="date" id="startDate" class="form-control"
-                           value="@Model.StartDate.ToString("yyyy-MM-dd")" />
+            <div class="col">
+                <div class="mb-3">
+                    <label for="startDate" class="form-label">Event Start Date:</label>
+                    <input type="date" id="startDate" name="StartDate" class="form-control" value="@Model.StartDate.ToString("yyyy-MM-dd")" required />
                 </div>
 
-                <div class="form-group">
-                    <label for="startTime">Event Start Time:</label>
-                    <input type="time" id="startTime" class="form-control"
-                           value="@Model.StartTime.ToString("HH:mm")" />
+                <div class="mb-3">
+                    <label for="startTime" class="form-label">Event Start Time:</label>
+                    <input type="time" id="startTime" name="StartTime" class="form-control" value="@Model.StartTime.ToString("HH:mm")" required />
                 </div>
 
-                <div class="form-group">
-                    <label for="endDate">Event End Date:</label>
-                    <input type="date" id="endDate" class="form-control"
-                           value="@Model.EndDate.ToString("yyyy-MM-dd")" />
+                <div class="mb-3">
+                    <label for="endDate" class="form-label">Event End Date:</label>
+                    <input type="date" id="endDate" name="EndDate" class="form-control" value="@Model.EndDate.ToString("yyyy-MM-dd")" required />
                 </div>
 
-                <div class="form-group">
-                    <label for="endTime">Event End Time:</label>
-                    <input type="time" id="endTime" class="form-control"
-                           value="@Model.EndTime.ToString("HH:mm")" />
+                <div class="mb-3">
+                    <label for="endTime" class="form-label">Event End Time:</label>
+                    <input type="time" id="endTime" name="EndTime" class="form-control" value="@Model.EndTime.ToString("HH:mm")" required />
                 </div>
             </div>
         </div>
@@ -63,9 +61,9 @@
             {
                 foreach (var ticket in Model.TicketTypes)
                 {
-                    <li>
+                    <li id="ticket-@ticket.Id">
                         @ticket.Name - PHP @ticket.Price - Quantity: @ticket.Quantity
-                        <button class="ml-6 btn-edit" data-id="@ticket.Id">Edit</button>
+                        <button type="button" class="ml-6 btn btn-edit" data-id="@ticket.Id" data-name="@ticket.Name" data-price="@ticket.Price" data-quantity="@ticket.Quantity" data-bs-toggle="modal" data-bs-target="#editTicketModal">Edit</button>
                     </li>
                 }
             }
@@ -75,39 +73,58 @@
             }
         </ul>
 
-        <button class="btn-add" id="btnAddTicketType">Add Ticket Type</button>
-        <button class="btn-save" id="btnSaveEvent">Save Event</button>
-        <button class="btn-back" id="btnBack" onclick="window.history.back();">Back</button>
+        <button type="button" class="btn btn-add" id="btnAddTicketType">Add Ticket Type</button>
+
+        <div class="btn-save-container">
+            <button type="submit" class="btn btn-primary"> Save Event</button>
+        </div>
+    </form>
+</div>
+
+<!-- Modal for editing ticket types -->
+<div class="modal fade" id="editTicketModal" tabindex="-1" aria-labelledby="editTicketModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTicketModalLabel">Edit Ticket Type</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editTicketForm">
+                    <input type="hidden" id="editTicketId" name="TicketId" />
+                    <div class="mb-3">
+                        <label for="editTicketName" class="form-label">Ticket Name:</label>
+                        <input type="text" id="editTicketName" name="TicketName" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTicketPrice" class="form-label">Ticket Price:</label>
+                        <input type="number" id="editTicketPrice" name="TicketPrice" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTicketQuantity" class="form-label">Quantity:</label>
+                        <input type="number" id="editTicketQuantity" name="TicketQuantity" class="form-control" required />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveEditTicket">Save changes</button>
+            </div>
+        </div>
     </div>
+</div>
 
-    <script>
-        document.getElementById('btnSaveEvent').addEventListener('click', function () {
-            const eventData = {
-                Name: document.getElementById('eventName').value,
-                Location: document.getElementById('eventLocation').value,
-                Description: document.getElementById('eventDescription').value,
-                StartTime: new Date(document.getElementById('startDate').value + 'T' + document.getElementById('startTime').value),
-                EndTime: new Date(document.getElementById('endDate').value + 'T' + document.getElementById('endTime').value)
-            };
+<script>
+    $(document).on('click', '.btn-edit', function () {
+        const ticketId = $(this).data('id');
+        const ticketName = $(this).data('name');
+        const ticketPrice = $(this).data('price');
+        const ticketQuantity = $(this).data('quantity');
 
-            fetch('/Event/SaveEvent', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(eventData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Event saved successfully!');
-                    window.location.href = '/Event/Index'; // Redirect to the event index page
-                } else {
-                    alert('Failed to save event.');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        });
-    </script>
-</body>
-</html>
+        $('#editTicketId').val(ticketId);
+        $('#editTicketName').val(ticketName);
+        $('#editTicketPrice').val(ticketPrice);
+        $('#editTicketQuantity').val(ticketQuantity);
+    });
+
+</script>
