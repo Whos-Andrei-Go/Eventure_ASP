@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="header text-center">CHECKOUT</h1>
+        <h1 class="header text-start">CHECKOUT</h1>
 
         <!-- Display success message if it exists -->
         @if (TempData["SuccessMessage"] != null)
@@ -36,9 +36,9 @@
                             {
                                 <div class="checkout-item">
                                     <h6>@ticket.TicketType.Name</h6>
-                                    <p>Price: @ticket.TicketType.Price.ToString("C")</p>
+                                    <p>Price: PHP @ticket.TicketType.Price.ToString("F2")</p>
                                     <p>Quantity: @ticket.Quantity</p>
-                                    <p>Total: @(ticket.TicketType.Price * ticket.Quantity)</p>
+                                    <p>Total: PHP @(ticket.TicketType.Price * ticket.Quantity)</p>
                                     <hr />
                                 </div>
                             }
@@ -56,7 +56,7 @@
                         <h5>Checkout Details</h5>
                     </div>
                     <div class="card-body">
-                        <h6>Total Price: @Model.CartTotal.ToString("C")</h6>
+                        <h6>Total Price: PHP @Model.CartTotal</h6>
                         <form asp-action="EnterPaymentMethod" method="post">
                             <button type="submit" class="btn btn-primary">Complete Checkout</button>
                         </form>

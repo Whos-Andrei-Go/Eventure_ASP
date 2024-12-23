@@ -184,3 +184,7 @@ input[type="password"] {
 .table th {
     background-color: #f2f2f2;
 }
+
+tr {
+    cursor: pointer;
+}

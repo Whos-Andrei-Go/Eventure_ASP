@@ -122,13 +122,12 @@ public partial class EtsDbContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("purchase_date");
             entity.Property(e => e.QrCode)
-                .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("qr_code");
             entity.Property(e => e.Status)
                 .HasMaxLength(20)
                 .IsUnicode(false)
-                .HasDefaultValue("active")
+                .HasDefaultValue("Active")
                 .HasColumnName("status");
             entity.Property(e => e.TicketTypeId).HasColumnName("ticket_type_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");

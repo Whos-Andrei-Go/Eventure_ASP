@@ -89,8 +89,17 @@
     margin-top: 20px;
 }
 
+.buy-tickets {
+    width: 300px; /* Fixed width for the buy tickets section */
+}
+
 .container {
     padding: 20px;
+}
+
+.event-details {
+    flex: 1; /* Takes up available space */
+    margin-right: 20px; /* Space between event details and buy tickets */
 }
 
 .header-container {
@@ -173,4 +182,9 @@
 
 .ticket-list li {
     margin-bottom: 10px;
+}
+
+.user-view-container {
+    display: flex;
+    justify-content: space-between; /* Aligns children to the left and right */
 }

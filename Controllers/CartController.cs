@@ -19,10 +19,20 @@ namespace Eventure_ASP.Controllers
         public IActionResult AddToCart(int ticketTypeId, int quantity, int eventId)
         {
             var ticketType = _ticketService.GetTicketTypeById(ticketTypeId);
+
+            // Check if the ticket type exists and the quantity is valid
             if (ticketType != null && quantity > 0)
             {
-                _cartService.AddTicket(ticketType, quantity);
-                TempData["SuccessMessage"] = "Ticket(s) added to cart successfully!";
+                // Check if the requested quantity exceeds the available quantity
+                if (quantity > ticketType.Quantity)
+                {
+                    TempData["ErrorMessage"] = $"You cannot buy more than {ticketType.Quantity} tickets. Please adjust your quantity.";
+                }
+                else
+                {
+                    _cartService.AddTicket(ticketType, quantity);
+                    TempData["SuccessMessage"] = "Ticket(s) added to cart successfully!";
+                }
             }
             else
             {

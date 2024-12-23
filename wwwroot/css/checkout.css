@@ -1,4 +1,13 @@
-﻿.container {
+﻿.btn-primary {
+    background-color: #990099;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #770077;
+}
+
+.container {
     padding: 20px;
 }
 

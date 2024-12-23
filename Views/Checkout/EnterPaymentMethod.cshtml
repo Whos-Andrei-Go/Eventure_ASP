@@ -4,91 +4,111 @@
     ViewData["Title"] = "Checkout";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/css/checkout.css" />
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> <!-- Include jQuery -->
-</head>
-<body>
-    <div class="container">
-        <h1 class="display-4 text-center">ENTER PAYMENT METHOD</h1>
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Your Cart</h5>
-                    </div>
-                    <div class="card-body" id="cartItems">
-                        @if (Model.CartTickets != null && Model.CartTickets.Any())
+<link rel="stylesheet" href="~/css/checkout.css" />
+
+<div class="container">
+    <h1 class="header text-start">ENTER PAYMENT METHOD</h1>
+    <!-- Display success message if it exists -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Your Cart</h5>
+                </div>
+                <div class="card-body" id="cartItems">
+                    @if (Model.CartTickets != null && Model.CartTickets.Any())
+                    {
+                        foreach (var ticket in Model.CartTickets)
                         {
-                            foreach (var ticket in Model.CartTickets)
-                            {
-                                <div class="checkout-item">
-                                    <h6>@ticket.TicketType.Name</h6>
-                                    <p>Price: @ticket.TicketType.Price.ToString("C")</p>
-                                    <p>Quantity: @ticket.Quantity</p>
-                                    <p>Total: @(ticket.TicketType.Price * ticket.Quantity)</p>
-                                    <hr />
-                                </div>
-                            }
+                            <div class="checkout-item">
+                                <h6>@ticket.TicketType.Name</h6>
+                                <p>Price: PHP @ticket.TicketType.Price</p>
+                                <p>Quantity: @ticket.Quantity</p>
+                                <p>Total: PHP @(ticket.TicketType.Price * ticket.Quantity)</p>
+                                <hr />
+                            </div>
                         }
-                        else
-                        {
-                            <p>Your cart is empty.</p>
-                        }
-                    </div>
+                    }
+                    else
+                    {
+                        <p>Your cart is empty.</p>
+                    }
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Payment Method</h5>
-                    </div>
-                    <div class="card-body">
-                        <form asp-action="CompleteCheckout" method="post">
-                            <div class="form-group">
-                                <label for="paymentMethod">Method of Payment:</label>
-                                <select id="paymentMethod" name="paymentMethodId" class="form-control" required>
-                                    <option value="">Select a Payment Method</option> <!-- Default option -->
-                                    @foreach (var method in Model.PaymentMethods)
-                                    {
-                                        <option value="@method.Id" data-accountnumber="@method.AccountNumber" data-expirationdate="@method.ExpirationDate?.ToString("MM/yyyy")">@method.PaymentType</option>
-                                    }
-                                </select>
-                            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Payment Method</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="CompleteCheckout" method="post">
+                        <div class="form-group">
+                            <label for="paymentMethod">Method of Payment:</label>
+                            <select id="paymentMethod" name="paymentMethodId" class="form-control" required>
+                                <option value="">Select a Payment Method</option> <!-- Default option -->
+                                @foreach (var method in Model.PaymentMethods)
+                                {
+                                    <option value="@method.Id"
+                                            data-accountnumber="@method.AccountNumber"
+                                            data-expirationdate="@method.ExpirationDate?.ToString("MM/yyyy")">@method.PaymentType</option>
+                                }
+                            </select>
+                        </div>
 
-                            <div class="form-group">
-                                <label for="accountNumber">Account Number:</label>
-                                <input type="text" class="form-control" id="accountNumber" name="accountNumber" required />
-                            </div>
+                        <div class="form-group">
+                            <label for="accountNumber">Account Number:</label>
+                            <input type="text" class="form-control" id="accountNumber" name="accountNumber" required />
+                        </div>
 
-                            <div class="form-group">
-                                <label for="expirationDate">Expiration Date:</label>
-                                <input type="text" class="form-control" id="expirationDate" name="expirationDate" placeholder="MM/YYYY" required />
-                            </div>
+                        <div class="form-group">
+                            <label for="expirationDate">Expiration Date:</label>
+                            <input type="text" class="form-control" id="expirationDate" name="expirationDate" placeholder="MM/YYYY" required />
+                        </div>
 
-                            <button type="submit" class="btn btn-primary">Complete Checkout</button>
-                        </form>
-                    </div>
+                        <button type="submit" class="btn btn-primary mt-4">Complete Checkout</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
+@section Scripts{
     <script>
         $(document).ready(function () {
-            $('#paymentMethod').change(function () {
-                var selectedOption = $(this).find('option:selected');
+            // Select the default payment method if it exists
+            var defaultPaymentMethodId = '@Model.DefaultPaymentMethodId'; // Assuming you have this property in your model
+
+            console.log("Default Payment Method ID:", defaultPaymentMethodId);
+
+            if (defaultPaymentMethodId) {
+                $('#paymentMethod').val(defaultPaymentMethodId).change(); // Set the value and trigger change event
+            }
+
+            // Function to update account number and expiration date
+            function updatePaymentDetails() {
+                var selectedOption = $('#paymentMethod').find('option:selected');
                 var accountNumber = selectedOption.data('accountnumber');
                 var expirationDate = selectedOption.data('expirationdate');
 
+                // Update the input fields with the selected option's data
                 $('#accountNumber').val(accountNumber);
                 $('#expirationDate').val(expirationDate);
-            });
+            }
+
+            // Update details on change
+            $('#paymentMethod').change(updatePaymentDetails);
+
+            // Initialize the details if a default payment method exists
+            updatePaymentDetails();
         });
     </script>
-</body>
-</html>
+}

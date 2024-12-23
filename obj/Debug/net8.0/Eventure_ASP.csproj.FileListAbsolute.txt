@@ -1,3 +1,12 @@
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.csproj.AssemblyReference.cache
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.AssemblyInfoInputs.cache
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.AssemblyInfo.cs
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.csproj.CoreCompileInputs.cache
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.RazorAssemblyInfo.cache
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.RazorAssemblyInfo.cs
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.sourcelink.json
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\appsettings.json
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\Eventure_ASP.staticwebassets.runtime.json
@@ -48,6 +57,7 @@ C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\Mono.TextTemplating.dll
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\System.ClientModel.dll
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\System.CodeDom.dll
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\System.Composition.AttributedModel.dll
@@ -69,6 +79,7 @@ C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\System.Text.Encodings.Web.dll
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\System.Text.Json.dll
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\System.Windows.Extensions.dll
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\zxing.dll
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.resources.dll
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.resources.dll
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.resources.dll
@@ -152,15 +163,6 @@ C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.csproj.AssemblyReference.cache
-C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.AssemblyInfoInputs.cache
-C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.AssemblyInfo.cs
-C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.csproj.CoreCompileInputs.cache
-C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.RazorAssemblyInfo.cache
-C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.RazorAssemblyInfo.cs
-C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.sourcelink.json
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\scopedcss\bundle\Eventure_ASP.styles.css
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\scopedcss\projectbundle\Eventure_ASP.bundle.scp.css
@@ -180,4 +182,9 @@ C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.pdb
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.genruntimeconfig.cache
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\ref\Eventure_ASP.dll
-C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\SkiaSharp.dll
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\ZXing.SkiaSharp.dll
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\runtimes\osx\native\libSkiaSharp.dylib
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\runtimes\win-arm64\native\libSkiaSharp.dll
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\runtimes\win-x64\native\libSkiaSharp.dll
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\runtimes\win-x86\native\libSkiaSharp.dll

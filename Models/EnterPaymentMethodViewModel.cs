@@ -11,7 +11,8 @@ namespace Eventure_ASP.Models
 
         // New properties for payment method details
         public int PaymentMethodId { get; set; } // Assuming PaymentMethodId is an integer
-        public string AccountNumber { get; set; }
-        public string ExpirationDate { get; set; } // Keep this as a string for input purposes
+        public int? DefaultPaymentMethodId { get; set; } = 0;
+        public string AccountNumber { get; set; } = "";
+        public string ExpirationDate { get; set; } = "";// Keep this as a string for input purposes
     }
 }

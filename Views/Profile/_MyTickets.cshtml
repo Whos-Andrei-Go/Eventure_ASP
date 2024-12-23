@@ -1,46 +1,115 @@
 ﻿@model Eventure_ASP.Models.ProfileViewModel
-@inject Eventure_ASP.Utilities.Session Session // Inject the Session utility
+@inject Eventure_ASP.Utilities.Session Session
 
-@* <div class="container"> *@
-    <h1 class="header">MY TICKETS</h1>
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Ticket ID</th>
-                    <th>Ticket Type</th>
-                    <th>Ticket Price</th>
-                    <th>Event Name</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.Tickets != null && Model.Tickets.Any())
+<h1 class="header">MY TICKETS</h1>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Ticket ID</th>
+                <th>Ticket Type</th>
+                <th>Ticket Price</th>
+                <th>Event Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Tickets != null && Model.Tickets.Any())
+            {
+                var currentUser = Session.GetCurrentUser(); // Get the current user object
+                var userTickets = Model.Tickets.Where(t => t.UserId == currentUser?.Id).ToList();
+
+                foreach (var ticket in userTickets)
                 {
-                    var currentUser = Session.GetCurrentUser(); // Get the current user object
-                    var userTickets = Model.Tickets.Where(t => t.UserId == currentUser?.Id).ToList();
+                    var ticketType = ticket.TicketType; // Assuming TicketType is a navigation property
+                    var eventDetails = Model.Events.FirstOrDefault(e => e.Id == ticketType?.EventId); // Get the event details
 
-                    foreach (var ticket in userTickets)
-                    {
-                        var ticketType = ticket.TicketType; // Assuming TicketType is a navigation property
-                        var eventDetails = Model.Events.FirstOrDefault(e => e.Id == ticketType?.EventId); // Get the event details
-
-                        <tr>
-                            <td>@ticket.Id</td>
-                            <td>@ticketType?.Name</td>
-                            <td>₱@ticketType?.Price.ToString("N2")</td> <!-- Format as currency in Philippine Pesos -->
-                            <td>@eventDetails?.Name</td>
-                            <td>@ticket.Status</td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="5" class="text-center">No tickets found.</td>
+                    <tr class="ticket-row"
+                        data-ticket-id="@ticket.Id"
+                        data-ticket-type="@ticketType?.Name"
+                        data-ticket-price="@ticketType?.Price"
+                        data-event-name="@eventDetails?.Name"
+                        data-status="@ticket.Status"
+                        data-qr-code="@ticket.QrCode">
+                        <td>@ticket.Id</td>
+                        <td>@ticketType?.Name</td>
+                        <td>₱@ticketType?.Price.ToString("N2")</td> <!-- Format as currency in Philippine Pesos -->
+                        <td>@eventDetails?.Name</td>
+                        <td>@ticket.Status</td>
                     </tr>
                 }
-            </tbody>
-        </table>
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center">No tickets found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Structure -->
+<div class="modal fade" id="ticketDetailsModal" tabindex="-1" aria-labelledby="ticketDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ticketDetailsModalLabel">Ticket Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Ticket ID:</strong> <span id="modalTicketId"></span></p>
+                <p><strong>Ticket Type:</strong> <span id="modalTicketType"></span></p>
+                <p><strong>Ticket Price:</strong> <span id="modalTicketPrice"></span></p>
+                <p><strong>Event Name:</strong> <span id="modalEventName"></span></p>
+                <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+                <div id="qrCodeContainer" style="display: none;">
+                    <strong>QR Code:</strong><br />
+                    <img id="modalQrCode" src="" alt="QR Code" />
+                </div>
+            </div>
+        </div>
     </div>
-@* </div> *@
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Handle row click
+            $('.ticket-row').on('click', function () {
+                console.log("Row clicked:", $(this).data('ticket-id'));
+
+                // Get data attributes from the clicked row
+                var ticketId = $(this).data('ticket-id');
+                var ticketType = $(this).data('ticket-type');
+                var ticketPrice = $(this).data('ticket-price');
+                var eventName = $(this).data('event-name');
+                var status = $(this).data('status');
+                var qrCode = $(this).data('qr-code');
+
+                // Populate modal with data
+                $('#modalTicketId').text(ticketId);
+                $('#modalTicketType').text(ticketType);
+                $('#modalTicketPrice').text('₱' + parseFloat(ticketPrice).toFixed(2));
+                $('#modalEventName').text(eventName);
+                $('#modalStatus').text(status);
+
+                // Check if QR code is available
+                if (qrCode) {
+                    $('#modalQrCode').attr('src ', qrCode);
+                    $('#qrCodeContainer').show();
+                } else {
+                    $('#qrCodeContainer').hide();
+                }
+
+                // Show the modal
+                var modal = new bootstrap.Modal(document.getElementById('ticketDetailsModal'), {
+                    keyboard: false
+                });
+                modal.show();
+            });
+        });
+    </script>
+}

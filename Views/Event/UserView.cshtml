@@ -18,62 +18,86 @@
     <link rel="stylesheet" href="~/css/event.css" />
 </head>
 <body>
-    <div class="container">
-        <div class="header-container">
-            <h1 class="header">@Model.Event.Name</h1>
-            <button class="btn-back" id="btnBack" onclick="window.history.back();">Back</button>
-        </div>
-
-        <div class="form-group">
-            <label>Event Location:</label>
-            <p>@Model.Event.Location</p>
-        </div>
-
-        <div class="form-group">
-            <label>Event Start Date:</label>
-            <p>@Model.Event.StartTime?.ToString("yyyy-MM-dd HH:mm")</p>
-        </div>
-
-        <div class="form-group">
-            <label>Event End Date:</label>
-            <p>@Model.Event.EndTime?.ToString("yyyy-MM-dd HH:mm")</p>
-        </div>
-
-        <div class="form-group">
-            <label>Event Description:</label>
-            <textarea class="form-control" readonly>@Model.Event.Description</textarea>
-        </div>
-
-        <h2>Buy Tickets:</h2>
-        <form method="post" action="@Url.Action("AddToCart", "Cart")">
-            <input type="hidden" name="eventId" value="@Model.Event.Id" /> <!-- Include the eventId -->
-
-            <div class="form-group">
-                <label for="ticketType">Ticket Type:</label>
-                <select id="ticketType" name="ticketTypeId" class="form-control">
-                    @foreach (var ticketType in Model.TicketTypes)
-                    {
-                        <option value="@ticketType.Id" data-price="@ticketType.Price">@ticketType.Name</option>
-                    }
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="quantity">Quantity:</label>
-                <input type="number" name="quantity" class="form-control" min="1" value="1" />
-            </div>
-
-            <div class="form-group">
-                <label>Price per Ticket:</label>
-                <p id="pricePerTicket">PHP @Model.TicketTypes.FirstOrDefault()?.Price.ToString("F2")</p>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Add to Cart</button>
-
-            <div class="summary">
-                <p>Quantity Left: <span>@Model.TicketTypes.FirstOrDefault()?.Quantity</span></p>
-            </div>
-        </form>
+    <div class="header-container">
+        <h1 class="header">@Model.Event.Name</h1>
+        <button class="btn-back" id="btnBack" onclick="window.history.back();">Back</button>
     </div>
+
+    <div class="user-view-container">
+        <div class="event-details">
+            <div class="form-group">
+                <h3>Event Location:</h3>
+                <p>@Model.Event.Location</p>
+            </div>
+
+            <div class="form-group">
+                <h3>Event Start Date:</h3>
+                <p>@Model.Event.StartTime?.ToString("yyyy-MM-dd HH:mm")</p>
+            </div>
+
+            <div class="form-group">
+                <h3>Event End Date:</h3>
+                <p>@Model.Event.EndTime?.ToString("yyyy-MM-dd HH:mm")</p>
+            </div>
+
+            <div class="form-group">
+                <h3>Event Description:</h3>
+                <textarea class="form-control" readonly>@Model.Event.Description</textarea>
+            </div>
+        </div>
+
+        <div class="buy-tickets">
+            <h2>Buy Tickets:</h2>
+            <form method="post" action="@Url.Action("AddToCart", "Cart")">
+                <input type="hidden" name="eventId" value="@Model.Event.Id" /> <!-- Include the eventId -->
+
+                <div class="form-group">
+                    <label for="ticketType">Ticket Type:</label>
+                    <select id="ticketType" name="ticketTypeId" class="form-control">
+                        @foreach (var ticketType in Model.TicketTypes)
+                        {
+                            <option value="@ticketType.Id" data-price="@ticketType.Price" data-quantity="@ticketType.Quantity">@ticketType.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" name="quantity" class="form-control" min="1" value="1" />
+                </div>
+
+                <div class="form-group">
+                    <label>Price per Ticket:</label>
+                    <p id="pricePerTicket">PHP @Model.TicketTypes.FirstOrDefault()?.Price.ToString("F2")</p>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add to Cart</button>
+
+                <div class="summary">
+                    <p>Quantity Left: <span id="quantityLeft">@Model.TicketTypes.FirstOrDefault()?.Quantity</span></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Function to update the price per ticket
+        function updateDetails() {
+            var ticketTypeSelect = document.getElementById('ticketType');
+            var selectedOption = ticketTypeSelect.options[ticketTypeSelect.selectedIndex];
+            var price = selectedOption.getAttribute('data-price'); // Get the price from the data attribute
+            var quantityLeft = selectedOption.getAttribute('data-quantity'); // Get the quantity left from the data attribute
+
+            document.getElementById('pricePerTicket').textContent = `PHP ${parseFloat(price).toFixed(2)}`; // Update the price display
+            document.getElementById('quantityLeft').textContent = quantityLeft; // Update the quantity left display
+        }
+
+        // Add event listener when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            var ticketTypeSelect = document.getElementById('ticketType');
+            ticketTypeSelect.addEventListener('change', updateDetails); // Listen for changes
+            updateDetails(); // Initialize the price on page load
+        });
+    </script>
 </body>
 </html>

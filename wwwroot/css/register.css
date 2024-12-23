@@ -2,6 +2,15 @@
     background-color: #f0f0f0; /* Light gray background */
 }
 
+.btn-primary {
+    background-color: #990099;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #770077;
+}
+
 .container-fluid .bg-purple {
     background-color: #9B009B !important; /* Use !important to override other styles */
 }
