@@ -24,29 +24,29 @@
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"o60pvlgoaq"},{"Name":"integrity","Value":"sha256-0D\u002BbZDCOUWXqSFOpMiiN34ABeqoEeGS9v4ud1QdHrqk="},{"Name":"label","Value":"_content/Eventure_ASP/css/dashboard.css"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"2617"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u00220D\u002BbZDCOUWXqSFOpMiiN34ABeqoEeGS9v4ud1QdHrqk=\u0022"},{"Name":"Last-Modified","Value":"Mon, 23 Dec 2024 13:51:35 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/Eventure_ASP/css/event.3ccbntre27.css">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\event.css'))</AssetFile>
-      <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"3ccbntre27"},{"Name":"integrity","Value":"sha256-M07WqrYGpv9UO31VDau6ip/uL7OaqerWfanO/4u8568="},{"Name":"label","Value":"_content/Eventure_ASP/css/event.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"2804"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022M07WqrYGpv9UO31VDau6ip/uL7OaqerWfanO/4u8568=\u0022"},{"Name":"Last-Modified","Value":"Mon, 23 Dec 2024 10:47:42 GMT"}]]]></ResponseHeaders>
-    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Eventure_ASP/css/event.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\event.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-M07WqrYGpv9UO31VDau6ip/uL7OaqerWfanO/4u8568="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"2804"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022M07WqrYGpv9UO31VDau6ip/uL7OaqerWfanO/4u8568=\u0022"},{"Name":"Last-Modified","Value":"Mon, 23 Dec 2024 10:47:42 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-GFIR8rzQBk0nyIPN0mxfQDv07ArAq9DGlIu\u002B3kS2wPg="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"4686"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022GFIR8rzQBk0nyIPN0mxfQDv07ArAq9DGlIu\u002B3kS2wPg=\u0022"},{"Name":"Last-Modified","Value":"Mon, 23 Dec 2024 17:55:57 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/Eventure_ASP/css/events.87czci6mi7.css">
+    <StaticWebAssetEndpoint Include="_content/Eventure_ASP/css/event.gu5udr644a.css">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\event.css'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"gu5udr644a"},{"Name":"integrity","Value":"sha256-GFIR8rzQBk0nyIPN0mxfQDv07ArAq9DGlIu\u002B3kS2wPg="},{"Name":"label","Value":"_content/Eventure_ASP/css/event.css"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"4686"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022GFIR8rzQBk0nyIPN0mxfQDv07ArAq9DGlIu\u002B3kS2wPg=\u0022"},{"Name":"Last-Modified","Value":"Mon, 23 Dec 2024 17:55:57 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Eventure_ASP/css/events.6ym4ap327e.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\events.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"87czci6mi7"},{"Name":"integrity","Value":"sha256-hBw\u002BFiP06l8mfwMAsEeZ0TJGGtbYgse9EQXnGjagSQo="},{"Name":"label","Value":"_content/Eventure_ASP/css/events.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"2215"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022hBw\u002BFiP06l8mfwMAsEeZ0TJGGtbYgse9EQXnGjagSQo=\u0022"},{"Name":"Last-Modified","Value":"Mon, 23 Dec 2024 14:12:52 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"6ym4ap327e"},{"Name":"integrity","Value":"sha256-0rT5y/eCWOiLt4ahe9a1jsJ1Ailog51BblBQmWkF5t4="},{"Name":"label","Value":"_content/Eventure_ASP/css/events.css"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"2234"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u00220rT5y/eCWOiLt4ahe9a1jsJ1Ailog51BblBQmWkF5t4=\u0022"},{"Name":"Last-Modified","Value":"Mon, 23 Dec 2024 17:16:47 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Eventure_ASP/css/events.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\events.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-hBw\u002BFiP06l8mfwMAsEeZ0TJGGtbYgse9EQXnGjagSQo="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"2215"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022hBw\u002BFiP06l8mfwMAsEeZ0TJGGtbYgse9EQXnGjagSQo=\u0022"},{"Name":"Last-Modified","Value":"Mon, 23 Dec 2024 14:12:52 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-0rT5y/eCWOiLt4ahe9a1jsJ1Ailog51BblBQmWkF5t4="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"2234"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u00220rT5y/eCWOiLt4ahe9a1jsJ1Ailog51BblBQmWkF5t4=\u0022"},{"Name":"Last-Modified","Value":"Mon, 23 Dec 2024 17:16:47 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Eventure_ASP/css/login.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\login.css'))</AssetFile>

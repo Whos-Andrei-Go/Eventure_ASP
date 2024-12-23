@@ -4,10 +4,8 @@ using Eventure_ASP.Services;
 using Eventure_ASP.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
+using Newtonsoft.Json;
+
 
 namespace Eventure_ASP.Controllers
 {
@@ -32,42 +30,41 @@ namespace Eventure_ASP.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateEventViewModel model)
+        [HttpPost]
+        public IActionResult Create(CreateEventViewModel model, string ticketTypesData)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var eventEntity = new Event
-                {
-                    Name = model.EventName,
-                    Location = model.EventLocation,
-                    Description = model.EventDescription,
-                    StartTime = new DateTime(model.StartDate.Year, model.StartDate.Month, model.StartDate.Day, model.StartTime.Hours, model.StartTime.Minutes, 0),
-                    EndTime = new DateTime(model.EndDate.Year, model.EndDate.Month, model.EndDate.Day, model.EndTime.Hours, model.EndTime.Minutes, 0),
-                    CreatorId = _session.GetCurrentUser().Id
-                };
-
-                _context.Events.Add(eventEntity);
-                _context.SaveChanges();
-
-                foreach (var ticketType in model.TicketTypes)
-                {
-                    var ticketEntity = new TicketType
-                    {
-                        EventId = eventEntity.Id,
-                        Name = ticketType.Name,
-                        Price = ticketType.Price,
-                        Quantity = ticketType.Quantity
-                    };
-
-                    _context.TicketTypes.Add(ticketEntity);
-                }
-
-                _context.SaveChanges();
-
-                return RedirectToAction("Index", "Events");
+                return View(model); // Return the view with validation errors
             }
 
-            return View(model);
+            // Create the event
+            var newEvent = new Event
+            {
+                Name = model.EventName,
+                Location = model.EventLocation,
+                Description = model.EventDescription,
+                StartTime = new DateTime(model.StartDate.Year, model.StartDate.Month, model.StartDate.Day, model.StartTime.Hours, model.StartTime.Minutes, 0),
+                EndTime = new DateTime(model.EndDate.Year, model.EndDate.Month, model.EndDate.Day, model.EndTime.Hours, model.EndTime.Minutes, 0),
+                CreatorId = _session.GetCurrentUser().Id
+            };
+
+            _context.Events.Add(newEvent);
+            _context.SaveChanges(); // Save the event to get the ID
+
+            // Deserialize the ticket types data
+            var ticketTypes = JsonConvert.DeserializeObject<List<TicketType>>(ticketTypesData);
+
+            // Associate ticket types with the event
+            foreach (var ticketType in ticketTypes)
+            {
+                ticketType.EventId = newEvent.Id; // Assuming TicketType has an EventId property
+                _context.TicketTypes.Add(ticketType);
+            }
+
+            _context.SaveChanges(); // Save the ticket types
+
+            return RedirectToAction("Index", "Events"); // Redirect to the events list or another appropriate action
         }
 
         public IActionResult ReturnView(int eventId)
@@ -101,16 +98,19 @@ namespace Eventure_ASP.Controllers
 
             var ticketTypes = _ticketService.GetTicketTypesByEventId(eventId);
 
-            var model = new EventViewModel
+            var model = new OrganizerEventViewModel
             {
-                Event = eventDetails,
+                EventId = eventId,
+                EventName = eventDetails?.Name ?? String.Empty,
+                EventLocation = eventDetails?.Location ?? String.Empty,
+                EventDescription = eventDetails?.Description ?? String.Empty,
                 TicketTypes = ticketTypes,
-                TicketsSold = $"Tickets Sold: {_ticketService.GetEventTicketsSold(eventId)}",
-                Revenue = $"Revenue: {_eventService.GetEventRevenue(eventId)}",
+                TicketsSold = _ticketService.GetEventTicketsSold(eventId),
+                Revenue = _eventService.GetEventRevenue(eventId),
                 StartDate = eventDetails.StartTime?.Date ?? DateTime.Now.Date,
-                StartTime = eventDetails.StartTime ?? DateTime.Now,
+                StartTime = eventDetails.StartTime?.TimeOfDay ?? TimeSpan.Zero, // Use TimeOfDay to get TimeSpan
                 EndDate = eventDetails.EndTime?.Date ?? DateTime.Now.Date,
-                EndTime = eventDetails.EndTime ?? DateTime.Now
+                EndTime = eventDetails.EndTime?.TimeOfDay ?? TimeSpan.Zero // Use TimeOfDay to get TimeSpan
             };
 
             return View("OrganizerView", model);
@@ -131,8 +131,8 @@ namespace Eventure_ASP.Controllers
             {
                 Event = eventDetails,
                 TicketTypes = ticketTypes,
-                TicketsSold = "",
-                Revenue = "",
+                TicketsSold = 0,
+                Revenue = 0,
                 StartDate = eventDetails.StartTime?.Date ?? DateTime.Now.Date,
                 StartTime = eventDetails.StartTime ?? DateTime.Now,
                 EndDate = eventDetails.EndTime?.Date ?? DateTime.Now.Date,
@@ -143,47 +143,48 @@ namespace Eventure_ASP.Controllers
         }
 
         [HttpPost]
-        public IActionResult Save(CreateEventViewModel model)
+        public IActionResult Save(OrganizerEventViewModel model, string ticketTypesData)
         {
-            if (ModelState.IsValid)
+            var eventToUpdate = _context.Events.Find(model.EventId);
+            if (eventToUpdate != null)
             {
-                Event eventEntity;
+                eventToUpdate.Name = model.EventName;
+                eventToUpdate.Location = model.EventLocation;
+                eventToUpdate.Description = model.EventDescription;
+                eventToUpdate.StartTime = new DateTime(model.StartDate.Year, model.StartDate.Month, model.StartDate.Day, model.StartTime.Hours, model.StartTime.Minutes, 0);
+                eventToUpdate.EndTime = new DateTime(model.EndDate.Year, model.EndDate.Month, model.EndDate.Day, model.EndTime.Hours, model.EndTime.Minutes, 0);
 
-                if (model.EventId == 0)
-                {
-                    eventEntity = new Event
-                    {
-                        Name = model.EventName,
-                        Location = model.EventLocation,
-                        Description = model.EventDescription,
-                        StartTime = new DateTime(model.StartDate.Year, model.StartDate.Month, model.StartDate.Day, model.StartTime.Hours, model.StartTime.Minutes, 0),
-                        EndTime = new DateTime(model.EndDate.Year, model.EndDate.Month, model.EndDate.Day, model.EndTime.Hours, model.EndTime.Minutes, 0),
-                        CreatorId = _session.GetCurrentUser().Id
-                    };
+                // Parse the ticket types data
+                var ticketTypes = JsonConvert.DeserializeObject<List<TicketType>>(ticketTypesData);
 
-                    _context.Events.Add(eventEntity);
-                }
-                else
+                // Update or create ticket types
+                foreach (var ticket in ticketTypes)
                 {
-                    eventEntity = _context.Events.Find(model.EventId);
-                    if (eventEntity == null)
+                    var existingTicket = _context.TicketTypes.Find(ticket.Id);
+                    if (existingTicket != null)
                     {
-                        return NotFound();
+                        // Update existing ticket type
+                        existingTicket.Name = ticket.Name;
+                        existingTicket.Price = ticket.Price;
+                        existingTicket.Quantity = ticket.Quantity;
                     }
-
-                    eventEntity.Name = model.EventName;
-                    eventEntity.Location = model.EventLocation;
-                    eventEntity.Description = model.EventDescription;
-                    eventEntity.StartTime = new DateTime(model.StartDate.Year, model.StartDate.Month, model.StartDate.Day, model.StartTime.Hours, model.StartTime.Minutes, 0);
-                    eventEntity.EndTime = new DateTime(model.EndDate.Year, model.EndDate.Month, model.EndDate.Day, model.EndTime.Hours, model.EndTime.Minutes, 0);
+                    else
+                    {
+                        // Create new ticket type
+                        _context.TicketTypes.Add(new TicketType
+                        {
+                            Name = ticket.Name,
+                            Price = ticket.Price,
+                            Quantity = ticket.Quantity,
+                            EventId = model.EventId // Associate with the event
+                        });
+                    }
                 }
 
-                _context.SaveChanges();
-
-                return RedirectToAction("OrganizerView", new { eventId = eventEntity.Id });
+                _context.SaveChanges(); // Save all changes to the database
             }
 
-            return View(model);
+            return RedirectToAction("Index", "Events"); // Redirect to the event list or another appropriate action
         }
     }
 }

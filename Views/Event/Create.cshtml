@@ -20,6 +20,7 @@
         </div>
 
         <form asp-action="Create" method="post">
+            <input type="hidden" id="ticketTypesData" name="TicketTypesData" />
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -35,7 +36,7 @@
                         <textarea class="form-control" id="Description" name="EventDescription" rows="5">@Model.EventDescription</textarea>
                     </div>
                     <div class="form-group">
-                        <label>Event Ticket Types:</label>
+                        <h2>Event Ticket Types:</h2>
                         <ul class="list-group" id="ticketTypeList">
                             @foreach (var ticketType in Model.TicketTypes)
                             {
@@ -44,7 +45,7 @@
                                 </li>
                             }
                         </ul>
-                        <button type="button" class="btn btn-secondary" id="addTicketTypeButton">+ Add Ticket Type</button>
+                        <button type="button" class="btn btn-add-ticket-type" id="addTicketTypeButton" data-bs-toggle="modal" data-bs-target="#addTicketTypeModal">+ Add Ticket Type</button>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -68,15 +69,88 @@
             </div>
 
             <div class="btn-container">
-                <button type="submit" class="btn-create-event">Submit</button>
+                <button type="submit" class="btn-primary">Submit</button>
             </div>
         </form>
     </div>
 
+    <!-- Modal for Adding Ticket Type -->
+    <div class="modal fade" id="addTicketTypeModal" tabindex="-1" aria-labelledby="addTicketTypeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTicketTypeModalLabel">Add Ticket Type</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="ticketName">Ticket Name:</label>
+                        <input type="text" class="form-control" id="ticketName" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="ticketPrice">Ticket Price:</label>
+                        <input type="number" class="form-control" id="ticketPrice" step="0.01" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="ticketQuantity">Ticket Quantity:</label>
+                        <input type="number" class="form-control" id="ticketQuantity" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" id="addTicketTypeConfirmButton" onclick="addTicketType()">Add Ticket Type</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        document.getElementById('addTicketTypeButton').addEventListener('click', function () {
-            alert('Open dialog to add ticket type');
-        });
+                let ticketTypes = []; // Array to hold ticket types
+
+        function addTicketType() {
+            // Get values from the input fields
+            var ticketName = document.getElementById('ticketName').value;
+            var ticketPrice = parseFloat(document.getElementById('ticketPrice').value);
+            var ticketQuantity = parseInt(document.getElementById('ticketQuantity').value);
+
+            // Validate input
+            if (ticketName && !isNaN(ticketPrice) && !isNaN(ticketQuantity)) {
+                // Create a new ticket type object
+                var ticketType = {
+                    Name: ticketName,
+                    Price: ticketPrice,
+                    Quantity: ticketQuantity
+                };
+
+                // Add the ticket type to the array
+                ticketTypes.push(ticketType);
+
+                // Create a new list item for the ticket type
+                var ticketTypeList = document.getElementById('ticketTypeList');
+                var newTicketType = document.createElement('li');
+                newTicketType.className = 'list-group-item';
+                newTicketType.textContent = `${ticketName} - PHP ${ticketPrice.toFixed(2)} - Quantity: ${ticketQuantity}`;
+
+                // Append the new ticket type to the list
+                ticketTypeList.appendChild(newTicketType);
+
+                // Clear the input fields
+                document.getElementById('ticketName').value = '';
+                document.getElementById('ticketPrice').value = '';
+                document.getElementById('ticketQuantity').value = '';
+
+                // Close the modal
+                var modal = bootstrap.Modal.getInstance(document.getElementById('addTicketTypeModal'));
+                modal.hide();
+            } else {
+                alert('Please fill in all fields correctly.');
+            }
+        }
+
+        // Update the hidden input field with ticket types data before form submission
+        document.querySelector('form').onsubmit = function() {
+            document.getElementById('ticketTypesData').value = JSON.stringify(ticketTypes);
+        };
     </script>
 </body>
 </html>

@@ -7,8 +7,8 @@ namespace Eventure_ASP.Models
     {
         public Event Event { get; set; }
         public List<TicketType> TicketTypes { get; set; }
-        public string TicketsSold { get; set; }
-        public string Revenue { get; set; }
+        public int TicketsSold { get; set; }
+        public decimal Revenue { get; set; }
 
         // Separate properties for date and time
         public DateTime StartDate { get; set; }

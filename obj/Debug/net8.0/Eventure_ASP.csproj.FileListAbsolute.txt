@@ -180,3 +180,4 @@ C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.pdb
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\Eventure_ASP.genruntimeconfig.cache
 C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\obj\Debug\net8.0\ref\Eventure_ASP.dll
+C:\Users\andre\OneDrive\Documents\USC\2nd Year\2103\Eventure_ASP\bin\Debug\net8.0\Newtonsoft.Json.dll

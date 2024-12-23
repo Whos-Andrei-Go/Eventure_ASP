@@ -26,6 +26,7 @@ namespace Eventure_ASP.Controllers
         {
             var events = _context.Events
                 .Include(e => e.Creator)
+                .OrderByDescending(e => e.StartTime) // Replace EventDate with the actual date property
                 .ToList();
 
             return View(events);

@@ -1,84 +1,109 @@
-﻿@model Eventure_ASP.Models.EventViewModel
+﻿@model Eventure_ASP.Models.OrganizerEventViewModel
 
 @{
-    ViewData["Title"] = @Model.Event.Name;
+    ViewData["Title"] = @Model.EventName;
 }
 
 <div class="container">
     <link rel="stylesheet" href="~/css/event.css" />
 
     <div class="header-container">
-        <h1 class="header">@Model.Event.Name</h1>
-        <button class="btn btn-primary" id="btnBack" onclick="window.history.back();">Back</button>
+        <h1 class="header">@Model.EventName</h1>
+        <button class="btn btn-back" id="btnBack" onclick="window.history.back();">Back</button>
     </div>
 
-    <form asp-action="Save" method="post">
-        <input type="hidden" name="EventId" value="@Model.Event.Id" />
+    <form asp-action="Save" method="post" onsubmit="return gatherTicketTypes();">
+        <input type="hidden" name="EventId" value="@Model.EventId" />
+        <input type="hidden" id="ticketTypesData" name="TicketTypesData" />
         <div class="row">
-            <div class="col">
-                <div class="mb-3">
-                    <label for="eventName" class="form-label">Event Name:</label>
-                    <input type="text" id="eventName" name="EventName" class="form-control" value="@Model.Event.Name" required />
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="EventName">Event Name:</label>
+                    <input type="text" class="form-control" id="EventName" name="EventName" value="@Model.EventName" required />
                 </div>
-
-                <div class="mb-3">
-                    <label for="eventLocation" class="form-label">Event Location:</label>
-                    <input type="text" id="eventLocation" name="EventLocation" class="form-control" value="@Model.Event.Location" required />
+                <div class="form-group">
+                    <label for="EventLocation">Event Location:</label>
+                    <input type="text" class="form-control" id="EventLocation" name="EventLocation" value="@Model.EventLocation" required />
                 </div>
-
-                <div class="mb-3">
-                    <label for="eventDescription" class="form-label">Event Description:</label>
-                    <textarea id="eventDescription" name="EventDescription" class="form-control" required>@Model.Event.Description</textarea>
+                <div class="form-group">
+                    <label for="Description">Event Description:</label>
+                    <textarea class="form-control" id="Description" name="EventDescription" rows="5">@Model.EventDescription</textarea>
+                </div>
+                <div class="form-group">
+                    <h2>Event Ticket Types:</h2>
+                    <ul class="list-group" id="ticketTypeList">
+                        @foreach (var ticketType in Model.TicketTypes)
+                        {
+                            <li class="list-group-item" id="ticket-@ticketType.Id">
+                                @ticketType.Name - PHP @ticketType.Price.ToString("F2") - Quantity: @ticketType.Quantity
+                                <button type="button" class="ml-6 btn btn-edit" onclick="updateEditModal(this)" data-id="@ticketType.Id" data-name="@ticketType.Name" data-price="@ticketType.Price" data-quantity="@ticketType.Quantity" data-bs-toggle="modal" data-bs-target="#editTicketModal">Edit</button>
+                            </li>
+                        }
+                    </ul>
+                    <button type="button" class="btn btn-add-ticket-type" id="addTicketTypeButton" data-bs-toggle="modal" data-bs-target="#addTicketTypeModal">+ Add Ticket Type</button>
                 </div>
             </div>
-
-            <div class="col">
-                <div class="mb-3">
-                    <label for="startDate" class="form-label">Event Start Date:</label>
-                    <input type="date" id="startDate" name="StartDate" class="form-control" value="@Model.StartDate.ToString("yyyy-MM-dd")" required />
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="StartDate">Event Start Date:</label>
+                    <input type="date" class="form-control" id="StartDate" name="StartDate" value="@Model.StartDate.ToString("yyyy-MM-dd")" required />
                 </div>
-
-                <div class="mb-3">
-                    <label for="startTime" class="form-label">Event Start Time:</label>
-                    <input type="time" id="startTime" name="StartTime" class="form-control" value="@Model.StartTime.ToString("HH:mm")" required />
+                <div class="form-group">
+                    <label for="StartTime">Event Start Time:</label>
+                    <input type="time" class="form-control" id="StartTime" name="StartTime" value="@Model.StartTime.ToString(@"hh\:mm")" required />
                 </div>
-
-                <div class="mb-3">
-                    <label for="endDate" class="form-label">Event End Date:</label>
-                    <input type="date" id="endDate" name="EndDate" class="form-control" value="@Model.EndDate.ToString("yyyy-MM-dd")" required />
+                <div class="form-group">
+                    <label for="EndDate">Event End Date:</label>
+                    <input type="date" class="form-control" id="EndDate" name="EndDate" value="@Model.EndDate.ToString("yyyy-MM-dd")" required />
                 </div>
-
-                <div class="mb-3">
-                    <label for="endTime" class="form-label">Event End Time:</label>
-                    <input type="time" id="endTime" name="EndTime" class="form-control" value="@Model.EndTime.ToString("HH:mm")" required />
+                <div class="form-group">
+                    <label for="EndTime">Event End Time:</label>
+                    <input type="time" class="form-control" id="EndTime" name="EndTime" value="@Model.EndTime.ToString(@"hh\:mm")" required />
                 </div>
             </div>
         </div>
 
-        <h2>Ticket Types</h2>
-        <ul class="ticket-list">
-            @if (Model.TicketTypes != null && Model.TicketTypes.Any())
-            {
-                foreach (var ticket in Model.TicketTypes)
-                {
-                    <li id="ticket-@ticket.Id">
-                        @ticket.Name - PHP @ticket.Price - Quantity: @ticket.Quantity
-                        <button type="button" class="ml-6 btn btn-edit" data-id="@ticket.Id" data-name="@ticket.Name" data-price="@ticket.Price" data-quantity="@ticket.Quantity" data-bs-toggle="modal" data-bs-target="#editTicketModal">Edit</button>
-                    </li>
-                }
-            }
-            else
-            {
-                <li>No ticket types available.</li>
-            }
-        </ul>
-
-        <button type="button" class="btn btn-add" id="btnAddTicketType">Add Ticket Type</button>
-
-        <div class="btn-save-container">
-            <button type="submit" class="btn btn-primary"> Save Event</button>
+        <div class="btn-container">
+            <button type="submit" class="btn btn-primary">Save Event</button>
         </div>
     </form>
+
+    <!-- Analytics Section -->
+    <div class="analytics -section mt-4">
+        <h2>Analytics</h2>
+        <p id="lblTicketsSold">Tickets Sold: @Model.TicketsSold</p>
+        <p id="lblRevenue">Revenue: PHP @Model.Revenue.ToString("F2")</p>
+    </div>
+</div>
+
+<!-- Modal for Adding Ticket Type -->
+<div class="modal fade" id="addTicketTypeModal" tabindex="-1" aria-labelledby="addTicketTypeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTicketTypeModalLabel">Add Ticket Type</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="ticketName">Ticket Name:</label>
+                    <input type="text" class="form-control" id="ticketName" required />
+                </div>
+                <div class="form-group">
+                    <label for="ticketPrice">Ticket Price:</label>
+                    <input type="number" class="form-control" id="ticketPrice" step="0.01" required />
+                </div>
+                <div class="form-group">
+                    <label for="ticketQuantity">Ticket Quantity:</label>
+                    <input type="number" class="form-control" id="ticketQuantity" required />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" id="addTicketTypeConfirmButton" onclick="addTicketType()">Add Ticket Type</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal for editing ticket types -->
@@ -108,23 +133,99 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveEditTicket">Save changes</button>
+                <button type="button" class="btn btn-secondary" id="saveEditTicket" onclick="saveEditTicket()">Save changes</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    $(document).on('click', '.btn-edit', function () {
-        const ticketId = $(this).data('id');
-        const ticketName = $(this).data('name');
-        const ticketPrice = $(this).data('price');
-        const ticketQuantity = $(this).data('quantity');
+    function updateEditModal(button) {
+        const ticketId = $(button).data('id');
+        const ticketName = $(button).data('name');
+        const ticketPrice = $(button).data('price');
+        const ticketQuantity = $(button).data('quantity');
 
         $('#editTicketId').val(ticketId);
         $('#editTicketName').val(ticketName);
         $('#editTicketPrice').val(ticketPrice);
         $('#editTicketQuantity').val(ticketQuantity);
-    });
+    }
 
+    function addTicketType() {
+        var ticketName = document.getElementById('ticketName').value;
+        var ticketPrice = parseFloat(document.getElementById('ticketPrice').value);
+        var ticketQuantity = parseInt(document.getElementById('ticketQuantity').value);
+
+        // Validate input
+        if (ticketName && !isNaN(ticketPrice) && !isNaN(ticketQuantity)) {
+            // // Create a new list item for the ticket type
+            var ticketTypeList = document.getElementById('ticketTypeList');
+            var newTicketType = document.createElement('li');
+            newTicketType.className = 'list-group-item';
+            newTicketType.textContent = `${ticketName} - PHP ${ticketPrice.toFixed(2)} - Quantity: ${ticketQuantity}`;
+            newTicketType.id = "ticket-0";
+
+            // Append the new ticket type to the list
+            ticketTypeList.appendChild(newTicketType);
+
+            // Clear the input fields
+            document.getElementById('ticketName').value = '';
+            document.getElementById('ticketPrice').value = '';
+            document.getElementById('ticketQuantity').value = '';
+
+            // Close the modal
+            var modal = bootstrap.Modal.getInstance(document.getElementById('addTicketTypeModal'));
+            modal.hide();
+        } else {
+            alert('Please fill in all fields correctly.');
+        }
+    }
+
+    function saveEditTicket() {
+        // Get the values from the input fields
+        const ticketId = $('#editTicketId').val();
+        const ticketName = $('#editTicketName').val();
+        const ticketPrice = parseFloat($('#editTicketPrice').val());
+        const ticketQuantity = parseInt($('#editTicketQuantity').val());
+
+        // Validate input
+        if (ticketName && !isNaN(ticketPrice) && !isNaN(ticketQuantity)) {
+            // Update the ticket type in the list
+            const ticketItem = $(`#ticket-${ticketId}`);
+            ticketItem.text(`${ticketName} - PHP ${ticketPrice.toFixed(2)} - Quantity: ${ticketQuantity}`);
+
+            // Close the modal
+            var modal = bootstrap.Modal.getInstance(document.getElementById('editTicketModal'));
+            modal.hide();
+        } else {
+            alert('Please fill in all fields correctly.');
+        }
+    }
+
+    function gatherTicketTypes() {
+        const ticketTypes = [];
+        $('#ticketTypeList .list-group-item').each(function() {
+            const ticketId = $(this).attr('id').split('-')[1]; // Extract the ticket ID from the list item ID
+            const ticketDetails = $(this).text().trim().split(' - '); // Get the text content and split it
+
+            // Assuming the format is "Name - Price - Quantity"
+            const ticketName = ticketDetails[0];
+            const ticketPrice = parseFloat(ticketDetails[1].replace('PHP', '').trim()); // Remove PHP and convert to float
+            const ticketQuantity = parseInt(ticketDetails[2].replace('Quantity: ', '')); // Extract quantity
+
+            // Push the ticket type object to the array
+            ticketTypes.push({
+                Id: ticketId,
+                Name: ticketName,
+                Price: ticketPrice,
+                Quantity: ticketQuantity
+            });
+        });
+
+        // Set the ticket types data as a JSON string in the hidden input
+        $('#ticketTypesData').val(JSON.stringify(ticketTypes));
+
+        return true; // Allow the form to submit
+    }
 </script>

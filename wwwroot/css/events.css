@@ -23,6 +23,7 @@
 
 .btn-create-event:hover {
     background-color: #770077; /* Darker shade on hover */
+    color: white;
 }
 
 .event-container {

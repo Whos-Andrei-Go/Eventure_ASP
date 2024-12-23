@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "IhkxI50u9VpeuIISdDLH854cvPjI6QJ2XoacXxRg+AY=",
+  "Hash": "JseVoJP8jg+fSYLv+AkeM1LSn82JtThlFCRyDj/+i40=",
   "Source": "Eventure_ASP",
   "BasePath": "_content/Eventure_ASP",
   "Mode": "Default",
@@ -115,8 +115,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "3ccbntre27",
-      "Integrity": "M07WqrYGpv9UO31VDau6ip/uL7OaqerWfanO/4u8568=",
+      "Fingerprint": "gu5udr644a",
+      "Integrity": "GFIR8rzQBk0nyIPN0mxfQDv07ArAq9DGlIu+3kS2wPg=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\event.css"
@@ -136,8 +136,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "87czci6mi7",
-      "Integrity": "hBw+FiP06l8mfwMAsEeZ0TJGGtbYgse9EQXnGjagSQo=",
+      "Fingerprint": "6ym4ap327e",
+      "Integrity": "0rT5y/eCWOiLt4ahe9a1jsJ1Ailog51BblBQmWkF5t4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\events.css"
@@ -477,51 +477,6 @@
       ]
     },
     {
-      "Route": "css/event.3ccbntre27.css",
-      "AssetFile": "C:\\Users\\andre\\OneDrive\\Documents\\USC\\2nd Year\\2103\\Eventure_ASP\\wwwroot\\css\\event.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2804"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"M07WqrYGpv9UO31VDau6ip/uL7OaqerWfanO/4u8568=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 23 Dec 2024 10:47:42 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "3ccbntre27"
-        },
-        {
-          "Name": "label",
-          "Value": "css/event.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-M07WqrYGpv9UO31VDau6ip/uL7OaqerWfanO/4u8568="
-        }
-      ]
-    },
-    {
       "Route": "css/event.css",
       "AssetFile": "C:\\Users\\andre\\OneDrive\\Documents\\USC\\2nd Year\\2103\\Eventure_ASP\\wwwroot\\css\\event.css",
       "Selectors": [],
@@ -532,7 +487,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2804"
+          "Value": "4686"
         },
         {
           "Name": "Content-Type",
@@ -540,11 +495,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"M07WqrYGpv9UO31VDau6ip/uL7OaqerWfanO/4u8568=\""
+          "Value": "\"GFIR8rzQBk0nyIPN0mxfQDv07ArAq9DGlIu+3kS2wPg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 23 Dec 2024 10:47:42 GMT"
+          "Value": "Mon, 23 Dec 2024 17:55:57 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -554,13 +509,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-M07WqrYGpv9UO31VDau6ip/uL7OaqerWfanO/4u8568="
+          "Value": "sha256-GFIR8rzQBk0nyIPN0mxfQDv07ArAq9DGlIu+3kS2wPg="
         }
       ]
     },
     {
-      "Route": "css/events.87czci6mi7.css",
-      "AssetFile": "C:\\Users\\andre\\OneDrive\\Documents\\USC\\2nd Year\\2103\\Eventure_ASP\\wwwroot\\css\\events.css",
+      "Route": "css/event.gu5udr644a.css",
+      "AssetFile": "C:\\Users\\andre\\OneDrive\\Documents\\USC\\2nd Year\\2103\\Eventure_ASP\\wwwroot\\css\\event.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -569,7 +524,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2215"
+          "Value": "4686"
         },
         {
           "Name": "Content-Type",
@@ -577,11 +532,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"hBw+FiP06l8mfwMAsEeZ0TJGGtbYgse9EQXnGjagSQo=\""
+          "Value": "\"GFIR8rzQBk0nyIPN0mxfQDv07ArAq9DGlIu+3kS2wPg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 23 Dec 2024 14:12:52 GMT"
+          "Value": "Mon, 23 Dec 2024 17:55:57 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -591,7 +546,52 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "87czci6mi7"
+          "Value": "gu5udr644a"
+        },
+        {
+          "Name": "label",
+          "Value": "css/event.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-GFIR8rzQBk0nyIPN0mxfQDv07ArAq9DGlIu+3kS2wPg="
+        }
+      ]
+    },
+    {
+      "Route": "css/events.6ym4ap327e.css",
+      "AssetFile": "C:\\Users\\andre\\OneDrive\\Documents\\USC\\2nd Year\\2103\\Eventure_ASP\\wwwroot\\css\\events.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2234"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"0rT5y/eCWOiLt4ahe9a1jsJ1Ailog51BblBQmWkF5t4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 23 Dec 2024 17:16:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "6ym4ap327e"
         },
         {
           "Name": "label",
@@ -599,7 +599,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-hBw+FiP06l8mfwMAsEeZ0TJGGtbYgse9EQXnGjagSQo="
+          "Value": "sha256-0rT5y/eCWOiLt4ahe9a1jsJ1Ailog51BblBQmWkF5t4="
         }
       ]
     },
@@ -614,7 +614,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2215"
+          "Value": "2234"
         },
         {
           "Name": "Content-Type",
@@ -622,11 +622,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"hBw+FiP06l8mfwMAsEeZ0TJGGtbYgse9EQXnGjagSQo=\""
+          "Value": "\"0rT5y/eCWOiLt4ahe9a1jsJ1Ailog51BblBQmWkF5t4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 23 Dec 2024 14:12:52 GMT"
+          "Value": "Mon, 23 Dec 2024 17:16:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -636,7 +636,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-hBw+FiP06l8mfwMAsEeZ0TJGGtbYgse9EQXnGjagSQo="
+          "Value": "sha256-0rT5y/eCWOiLt4ahe9a1jsJ1Ailog51BblBQmWkF5t4="
         }
       ]
     },
