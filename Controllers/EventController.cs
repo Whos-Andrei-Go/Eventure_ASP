@@ -64,6 +64,18 @@ namespace Eventure_ASP.Controllers
 
             _context.SaveChanges(); // Save the ticket types
 
+            var currentUser = _session.GetCurrentUser();
+            var userInDb = _context.Users.Find(currentUser.Id);
+
+            if (userInDb != null)
+            {
+                if (userInDb.Role != "Organizer")
+                {
+                    userInDb.Role = "Organizer";
+                    _context.SaveChanges();
+                }
+            }
+
             return RedirectToAction("Index", "Events"); // Redirect to the events list or another appropriate action
         }
 
@@ -126,6 +138,7 @@ namespace Eventure_ASP.Controllers
             }
 
             var ticketTypes = _ticketService.GetTicketTypesByEventId(eventId);
+            var userTickets = _ticketService.GetUserTicketsByEventId(_session.GetCurrentUser().Id, eventId);
 
             var model = new EventViewModel
             {
@@ -136,7 +149,8 @@ namespace Eventure_ASP.Controllers
                 StartDate = eventDetails.StartTime?.Date ?? DateTime.Now.Date,
                 StartTime = eventDetails.StartTime ?? DateTime.Now,
                 EndDate = eventDetails.EndTime?.Date ?? DateTime.Now.Date,
-                EndTime = eventDetails.EndTime ?? DateTime.Now
+                EndTime = eventDetails.EndTime ?? DateTime.Now,
+                UserTickets = userTickets
             };
 
             return View("UserView", model);
@@ -182,9 +196,10 @@ namespace Eventure_ASP.Controllers
                 }
 
                 _context.SaveChanges(); // Save all changes to the database
+                TempData["SuccessMessage"] = "Event successfully updated!";
             }
 
-            return RedirectToAction("Index", "Events"); // Redirect to the event list or another appropriate action
+            return View("OrganizerView", model);
         }
     }
 }

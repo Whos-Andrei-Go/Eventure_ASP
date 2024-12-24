@@ -10,94 +10,199 @@
     <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>Eventure - Event</title>
-    <link rel="stylesheet" href="~/css/event.css" />
-</head>
-<body>
-    <div class="header-container">
-        <h1 class="header">@Model.Event.Name</h1>
-        <button class="btn-back" id="btnBack" onclick="window.history.back();">Back</button>
-    </div>
 
+@{
+    ViewData["Title"] = @Model.Event.Name;
+}
+
+<link rel="stylesheet" href="~/css/event.css" />
+
+<div class="header-container">
+    <h1 class="header">@Model.Event.Name</h1>
+    <button class="btn-back" id="btnBack" onclick="window.history.back();">Back</button>
+</div>
+
+<div class="container">
     <div class="user-view-container">
-        <div class="event-details">
-            <div class="form-group">
-                <h3>Event Location:</h3>
-                <p>@Model.Event.Location</p>
+        <div class="row d-flex align-items-start">
+            <div class="col-md-6">
+                <div class="event-details">
+                    <div class="form-group">
+                        <h3>Event Location:</h3>
+                        <p>@Model.Event.Location</p>
+                    </div>
+
+                    <div class="form-group">
+                        <h3>Event Start Date:</h3>
+                        <p>@Model.Event.StartTime?.ToString("yyyy-MM-dd HH:mm")</p>
+                    </div>
+
+                    <div class="form-group">
+                        <h3>Event End Date:</h3>
+                        <p>@Model.Event.EndTime?.ToString("yyyy-MM-dd HH:mm")</p>
+                    </div>
+
+                    <div class="form-group">
+                        <h3>Event Description:</h3>
+                        <textarea class="form-control" readonly>@Model.Event.Description</textarea>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <h3>Event Start Date:</h3>
-                <p>@Model.Event.StartTime?.ToString("yyyy-MM-dd HH:mm")</p>
-            </div>
+            <div class="col-md-6">
+                <div class="buy-tickets">
+                    <h2>Buy Tickets:</h2>
+                    <form method="post" action="@Url.Action("AddToCart", "Cart")">
+                        <input type="hidden" name="eventId" value="@Model.Event.Id" />
 
-            <div class="form-group">
-                <h3>Event End Date:</h3>
-                <p>@Model.Event.EndTime?.ToString("yyyy-MM-dd HH:mm")</p>
-            </div>
+                        <div class="form-group">
+                            <label for="ticketType">Ticket Type:</label>
+                            <select id="ticketType" name="ticketTypeId" class="form-control">
+                                @foreach (var ticketType in Model.TicketTypes)
+                                {
+                                    <option value="@ticketType.Id" data-price="@ticketType.Price" data-quantity="@ticketType.Quantity">@ticketType.Name</option>
+                                }
+                            </select>
+                        </div>
 
-            <div class="form-group">
-                <h3>Event Description:</h3>
-                <textarea class="form-control" readonly>@Model.Event.Description</textarea>
+                        <div class="form-group">
+                            <label for="quantity">Quantity:</label>
+                            <input type="number" name="quantity" class="form-control" min="1" value="1" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Price per Ticket:</label>
+                            <p id="pricePerTicket">PHP @Model.TicketTypes.FirstOrDefault()?.Price.ToString("F2")</p>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+
+                        <div class="summary">
+                            <p>Quantity Left: <span id="quantityLeft">@Model.TicketTypes.FirstOrDefault()?.Quantity</span></p>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
-        <div class="buy-tickets">
-            <h2>Buy Tickets:</h2>
-            <form method="post" action="@Url.Action("AddToCart", "Cart")">
-                <input type="hidden" name="eventId" value="@Model.Event.Id" /> <!-- Include the eventId -->
-
-                <div class="form-group">
-                    <label for="ticketType">Ticket Type:</label>
-                    <select id="ticketType" name="ticketTypeId" class="form-control">
-                        @foreach (var ticketType in Model.TicketTypes)
-                        {
-                            <option value="@ticketType.Id" data-price="@ticketType.Price" data-quantity="@ticketType.Quantity">@ticketType.Name</option>
-                        }
-                    </select>
+        <!-- User Tickets Section -->
+        <div class="row mt-4">
+            <!-- New row for user tickets -->
+            <div class="col-md-12">
+                <div class="user-tickets">
+                    <h2>Your Tickets:</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Ticket ID</th>
+                                    <th>Ticket Type</th>
+                                    <th>Ticket Price</th>
+                                    <th>Event Name</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.UserTickets != null && Model.UserTickets.Any())
+                                {
+                                    foreach (var ticket in Model.UserTickets)
+                                    {
+                                        <tr class="ticket-row" onclick="openTicketModal(this)"
+                                            data-ticket-id="@ticket.Id"
+                                            data-ticket-type="@ticket.TicketType.Name"
+                                            data-ticket-price="@ticket.TicketType.Price"
+                                            data-event-name="@Model.Event.Name"
+                                            data-status="@ticket.Status"
+                                            data-qr-code="@ticket.QrCode">
+                                            <td>@ticket.Id</td>
+                                            <td>@ticket.TicketType.Name</td>
+                                            <td>₱@ticket.TicketType.Price.ToString("N2")</td>
+                                            <td>@Model.Event.Name</td>
+                                            <td>@ticket.Status</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="5" class="text-center">No tickets found.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="quantity">Quantity:</label>
-                    <input type="number" name="quantity" class="form-control" min="1" value="1" />
-                </div>
-
-                <div class="form-group">
-                    <label>Price per Ticket:</label>
-                    <p id="pricePerTicket">PHP @Model.TicketTypes.FirstOrDefault()?.Price.ToString("F2")</p>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Add to Cart</button>
-
-                <div class="summary">
-                    <p>Quantity Left: <span id="quantityLeft">@Model.TicketTypes.FirstOrDefault()?.Quantity</span></p>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
+</div>
 
-    <script>
-        // Function to update the price per ticket
-        function updateDetails() {
-            var ticketTypeSelect = document.getElementById('ticketType');
-            var selectedOption = ticketTypeSelect.options[ticketTypeSelect.selectedIndex];
-            var price = selectedOption.getAttribute('data-price'); // Get the price from the data attribute
-            var quantityLeft = selectedOption.getAttribute('data-quantity'); // Get the quantity left from the data attribute
+<script>
+    // Function to update the price per ticket
+    function updateDetails() {
+        var ticketTypeSelect = document.getElementById('ticketType');
+        var selectedOption = ticketTypeSelect.options[ticketTypeSelect.selectedIndex];
+        var price = selectedOption.getAttribute('data-price');
+        var quantityLeft = selectedOption.getAttribute('data-quantity');
 
-            document.getElementById('pricePerTicket').textContent = `PHP ${parseFloat(price).toFixed(2)}`; // Update the price display
-            document.getElementById('quantityLeft').textContent = quantityLeft; // Update the quantity left display
+        document.getElementById('pricePerTicket').textContent = `PHP ${parseFloat(price).toFixed(2)}`;
+        document.getElementById('quantityLeft').textContent = quantityLeft;
+    }
+
+    // Add event listener when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        var ticketTypeSelect = document.getElementById('ticketType');
+        ticketTypeSelect.addEventListener('change', updateDetails);
+        updateDetails();
+    });
+
+    function openTicketModal(row) {
+        var ticketId = $(row).data('ticket-id');
+        var ticketType = $(row).data('ticket-type');
+        var ticketPrice = $(row).data('ticket-price');
+        var eventName = $(row).data('event-name');
+        var status = $(row).data('status');
+        var qrCode = $(row).data('qr-code');
+
+        $('#modalTicketId').text(ticketId);
+        $('#modalTicketType').text(ticketType);
+        $('#modalTicketPrice').text('₱' + parseFloat(ticketPrice).toFixed(2));
+        $('#modalEventName').text(eventName);
+        $('#modalStatus').text(status);
+
+        if (qrCode) {
+            $('#modalQrCode').attr('src', qrCode);
+            $('#qrCodeContainer').show();
+        } else {
+            $('#qrCodeContainer').hide();
         }
 
-        // Add event listener when the DOM is fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            var ticketTypeSelect = document.getElementById('ticketType');
-            ticketTypeSelect.addEventListener('change', updateDetails); // Listen for changes
-            updateDetails(); // Initialize the price on page load
+        var modal = new bootstrap.Modal(document.getElementById('ticketDetailsModal'), {
+            keyboard: false
         });
-    </script>
-</body>
-</html>
+        modal.show();
+    }
+</script>
+
+<!-- Modal Structure -->
+<div class="modal fade" id="ticketDetailsModal" tabindex="-1" aria-labelledby="ticketDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ticketDetailsModalLabel">Ticket Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Ticket ID:</strong> <span id="modalTicketId"></span></p>
+                <p><strong>Ticket Type:</strong> <span id="modalTicketType"></span></p>
+                <p><strong>Ticket Price:</strong> <span id="modalTicketPrice"></span></p>
+                <p><strong>Event Name:</strong> <span id="modalEventName"></span></p>
+                <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+                <div id="qrCodeContainer" style="display: none;">
+                    <strong>QR Code:</strong><br />
+                    <img id="modalQrCode" src="" alt="QR Code" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

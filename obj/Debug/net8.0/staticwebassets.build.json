@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "cvhG/1v6jRQVUd8xNEmMKVAUy0E+lDrJJnhxQWGQlfc=",
+  "Hash": "a78fWO3ncXYrTJPPICQv7dLRbGPURsM1Vd0+68dmBts=",
   "Source": "Eventure_ASP",
   "BasePath": "_content/Eventure_ASP",
   "Mode": "Default",
@@ -115,8 +115,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "4cf5dvkbft",
-      "Integrity": "HBpo7EYeS26G/t6yz9bZbTSPh1eDWSlzqGGrZLI72FE=",
+      "Fingerprint": "21rniheogs",
+      "Integrity": "lv77SzAZEPBE+V18NlhIZrPUS2s7KnzQzxqvUczX7sY=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\event.css"
@@ -498,7 +498,7 @@
       ]
     },
     {
-      "Route": "css/event.4cf5dvkbft.css",
+      "Route": "css/event.21rniheogs.css",
       "AssetFile": "C:\\Users\\andre\\OneDrive\\Documents\\USC\\2nd Year\\2103\\Eventure_ASP\\wwwroot\\css\\event.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -508,7 +508,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5045"
+          "Value": "4919"
         },
         {
           "Name": "Content-Type",
@@ -516,11 +516,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"HBpo7EYeS26G/t6yz9bZbTSPh1eDWSlzqGGrZLI72FE=\""
+          "Value": "\"lv77SzAZEPBE+V18NlhIZrPUS2s7KnzQzxqvUczX7sY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 23 Dec 2024 19:11:33 GMT"
+          "Value": "Tue, 24 Dec 2024 06:52:36 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -530,7 +530,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "4cf5dvkbft"
+          "Value": "21rniheogs"
         },
         {
           "Name": "label",
@@ -538,7 +538,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-HBpo7EYeS26G/t6yz9bZbTSPh1eDWSlzqGGrZLI72FE="
+          "Value": "sha256-lv77SzAZEPBE+V18NlhIZrPUS2s7KnzQzxqvUczX7sY="
         }
       ]
     },
@@ -553,7 +553,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5045"
+          "Value": "4919"
         },
         {
           "Name": "Content-Type",
@@ -561,11 +561,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"HBpo7EYeS26G/t6yz9bZbTSPh1eDWSlzqGGrZLI72FE=\""
+          "Value": "\"lv77SzAZEPBE+V18NlhIZrPUS2s7KnzQzxqvUczX7sY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 23 Dec 2024 19:11:33 GMT"
+          "Value": "Tue, 24 Dec 2024 06:52:36 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -575,7 +575,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-HBpo7EYeS26G/t6yz9bZbTSPh1eDWSlzqGGrZLI72FE="
+          "Value": "sha256-lv77SzAZEPBE+V18NlhIZrPUS2s7KnzQzxqvUczX7sY="
         }
       ]
     },

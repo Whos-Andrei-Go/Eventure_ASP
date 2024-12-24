@@ -53,5 +53,13 @@ namespace Eventure_ASP.Services
                 .Include(t => t.TicketType) // Ensure TicketType data is loaded
                 .Sum(t => t.TicketType.Price); // Sum the prices of all ticket types
         }
+
+        public List<Ticket> GetUserTicketsByEventId(int userId, int eventId)
+        {
+            return _context.Tickets
+                .Include(t => t.TicketType) // Include the TicketType to access its properties
+                .Where(t => t.UserId == userId && t.TicketType.EventId == eventId) // Check the TicketType's EventId
+                .ToList();
+        }
     }
 }

@@ -7,6 +7,8 @@ namespace Eventure_ASP.Models
     {
         public Event Event { get; set; }
         public List<TicketType> TicketTypes { get; set; }
+        public List<Ticket> UserTickets { get; set; } = new List<Ticket>();
+
         public int TicketsSold { get; set; }
         public decimal Revenue { get; set; }
 

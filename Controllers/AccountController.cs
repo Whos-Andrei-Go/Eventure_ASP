@@ -90,7 +90,8 @@ namespace Eventure_ASP.Controllers
                 _context.Users.Add(user);
                 _context.SaveChanges(); // Save changes synchronously
 
-                _session.SetCurrentUser(user); // Set the current user in session
+                var newUser = _userRepository.GetUserByUsername(model.Username);
+                _session.SetCurrentUser(newUser); // Set the current user in session
 
 
                 // Redirect to login after successful registration
