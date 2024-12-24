@@ -4,28 +4,54 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="~/css/dashboard.css" />
-</head>
-<body>
-    <div class="container">
-        <div class="header-container">
-            <div class="header">DASHBOARD</div>
-            <div class="clock" id="lblClock">@DateTime.Now.ToString("HH:mm:ss")</div>
-        </div>
+<link rel="stylesheet" href="~/css/dashboard.css" />
 
-        <div class="sub-header">Upcoming Events:</div>
-        <div class="event-container">
-            @if (Model.UpcomingEvents == null || !Model.UpcomingEvents.Any())
+<div class="container">
+    <div class="header-container">
+        <div class="header">DASHBOARD</div>
+        <div class="clock" id="lblClock">@DateTime.Now.ToString("HH:mm:ss")</div>
+    </div>
+
+    <div class="sub-header">Upcoming Events:</div>
+    <div class="event-container">
+        @if (Model.UpcomingEvents == null || !Model.UpcomingEvents.Any())
+        {
+            <p>No upcoming events to display.</p>
+        }
+        else
+        {
+            foreach (var eventItem in Model.UpcomingEvents)
             {
-                <p>No upcoming events to display.</p>
+                <a href="@Url.Action("ReturnView", "Event", new { eventId = eventItem.Id })" class="event-card">
+                    <h3 class="event-name">@eventItem.Name</h3>
+                    <p>
+                        @if (eventItem.StartTime.HasValue)
+                        {
+                            @eventItem.StartTime.Value.ToString("yyyy-MM-dd HH:mm")
+                        }
+                        else
+                        {
+                            <span>Start time not available</span>
+                        }
+                    </p>
+                    <p>Location: @eventItem.Location</p>
+                    <p>Organizer: @eventItem.Creator?.Username</p>
+                </a>
+            }
+        }
+    </div>
+
+    @if (Model.UserRole == "Organizer") // Check if the user is an organizer
+    {
+        <div class="sub-header">Your Events:</div>
+        <div class="event-container">
+            @if (Model.YourEvents == null || !Model.YourEvents.Any())
+            {
+                <p>No events created by you.</p>
             }
             else
             {
-                foreach (var eventItem in Model.UpcomingEvents)
+                foreach (var eventItem in Model.YourEvents)
                 {
                     <a href="@Url.Action("ReturnView", "Event", new { eventId = eventItem.Id })" class="event-card">
                         <h3 class="event-name">@eventItem.Name</h3>
@@ -45,51 +71,18 @@
                 }
             }
         </div>
+    }
+</div>
 
-        @if (Model.UserRole == "Organizer") // Check if the user is an organizer
-        {
-            <div class="sub-header">Your Events:</div>
-            <div class="event-container">
-                @if (Model.YourEvents == null || !Model.YourEvents.Any())
-                {
-                    <p>No events created by you.</p>
-                }
-                else
-                {
-                    foreach (var eventItem in Model.YourEvents)
-                    {
-                        <a href="@Url.Action("ReturnView", "Event", new { eventId = eventItem.Id })" class="event-card">
-                            <h3 class= "event-name">@eventItem.Name</h3>
-                            <p>
-                                @if (eventItem.StartTime.HasValue)
-                                {
-                                    @eventItem.StartTime.Value.ToString("yyyy-MM-dd HH:mm")
-                                }
-                                else
-                                {
-                                    <span>Start time not available</span>
-                                }
-                            </p>
-                            <p>Location: @eventItem.Location</p>
-                            <p>Organizer: @eventItem.Creator?.Username</p>
-                        </a>
-                    }
-                }
-            </div>
-        }
-    </div>
+<script>
+    // JavaScript to update the clock every second
+    function updateClock() {
+        var now = new Date();
+        document.getElementById('lblClock').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
 
-    <script>
-        // JavaScript to update the clock every second
-        function updateClock() {
-            var now = new Date();
-            document.getElementById('lblClock').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-        }
-
-        // Initial clock update
-        updateClock();
-        // Update the clock every second
-        setInterval(updateClock, 1000);
-    </script>
-</body>
-</html>
+    // Initial clock update
+    updateClock();
+    // Update the clock every second
+    setInterval(updateClock, 1000);
+</script>
